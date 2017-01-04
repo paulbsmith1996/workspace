@@ -1,0 +1,9 @@
+.DS_Store
+.classpath
+.metadata
+.project
+*/.projects
+*/.settings
+.recommenders
+bin/
+temp/
