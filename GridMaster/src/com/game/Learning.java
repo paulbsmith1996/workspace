@@ -3,41 +3,68 @@ package com.game;
 import java.util.Random;
 
 public class Learning {
+	
+	private static final int PROB_RIGHT = 500;
+	private static final int PROB_LEFT  = 250;
+	private static final int PROB_DOWN  = 250;
+	
+	// Number of generations before halting the search
+	private static final int NUM_GENS = 20;
+	
+	// Number of creatures per learning generation
+	private static final int CREATURES_PER_GEN = 1000;
+	
+	// Number of times a creature simulates before its performance
+	// score is calculated. Each generation makes
+	// CREATURES_PER_GENERATION * NUM_SIMS test per generation
+	private static final int NUM_SIMS = 5;
+	private static final int NUM_SIMS_FOR_ONE_ALG = 2000;
+	
+	// The maximum amount by which a single probability (probability 
+	// of moving in any one direction) can change from a creature 
+	// in generation n to a creature in generation n+1
+	private static final int LEARNING_RATE = 50;
+	
+	// Each probability will be calculated using this number in this way:
+	// e.g. probability of moving right = PROB_RIGHT / PROB_SUM
+	// Should be greater than PROB_RIGHT + PROB_LEFT + PROB_DOWN
+	private static final int PROB_SUM = 1000;
+	
 
 	public static void main(String[] args) {
 		
-		int numGens = 20;
-		int numSims = 5;
-		int learningRate = 50;
+		int numGens = NUM_GENS;
+		int numSims = NUM_SIMS;
+		int learningRate = LEARNING_RATE;
 		
-		int oneAlgNumSims = 2000;
+		int oneAlgNumSims = NUM_SIMS_FOR_ONE_ALG;
 		
 		/*
 		 *  Probabaility of moving RIGHT
 		 */
-		int p1 = 250;
+		int p1 = PROB_RIGHT;
 
 		/*
 		 *  Probability of moving LEFT
 		 */
-		int p2 = 250;
+		int p2 = PROB_LEFT;
 
 		/*
 		 *  Probability of moving DOWN
 		 */
-		int p3 = 250;
+		int p3 = PROB_DOWN;
 
 		/*
 		 *  Probability of moving UP
 		 */
-		int p4 = 1000 - p3 - p2 - p1;
+		int p4 = PROB_SUM - p3 - p2 - p1;
 
 		int[] probs = { p1, p2, p3, p4 };
 		
 		long sTime = System.currentTimeMillis();
 		
-		//learn(numGens, numSims, learningRate);
-		simOneAlg(probs, oneAlgNumSims);
+		learn(numGens, numSims, learningRate);
+		//simOneAlg(probs, oneAlgNumSims);
 		
 		long tTime = System.currentTimeMillis();
 		
@@ -49,7 +76,7 @@ public class Learning {
 		
 		Random r = new Random();
 		
-		ScoreCard[] scores = new ScoreCard[1000];
+		ScoreCard[] scores = new ScoreCard[CREATURES_PER_GEN];
 		
 		// Number of generations that creatures will have to evolve
 		int NUM_GENS = numGens;
@@ -67,16 +94,16 @@ public class Learning {
 			
 			do {
 			// Prob right
-			p1 = r.nextInt(999) + 1;
+			p1 = r.nextInt(PROB_SUM - 1) + 1;
 			
 			// Prob left
-			p2 = r.nextInt(999) + 1;
+			p2 = r.nextInt(PROB_SUM - 1) + 1;
 			
 			// Prob down
-			p3 = r.nextInt(999) + 1;
+			p3 = r.nextInt(PROB_SUM - 1) + 1;
 			
 			// Prob up
-			p4 = 1000 - p3 - p2 - p1;
+			p4 = PROB_SUM - p3 - p2 - p1;
 			
 			} while(p4 <= 0);
 
@@ -180,7 +207,7 @@ public class Learning {
 		System.out.println("------------------------");
 		System.out.println();
 		
-		ScoreCard[] newArr = new ScoreCard[1000];
+		ScoreCard[] newArr = new ScoreCard[CREATURES_PER_GEN];
 		
 		for(int x = 0; x < scores.length / 2; x++) {
 			
@@ -206,12 +233,12 @@ public class Learning {
 					//int delta = (r.nextInt(3) - 1) * LEARNING_RATE;
 					int delta = r.nextInt(LEARNING_RATE) - LEARNING_RATE / 2;
 				
-					if(playProbs[i] + delta < 1000 && playProbs[i] + delta > 0) {
+					if(playProbs[i] + delta < PROB_SUM && playProbs[i] + delta > 0) {
 						playProbs[i] += delta;
 					}
 				}
 				
-				playProbs[3] = 1000 - playProbs[0] - playProbs[1] - playProbs[2];
+				playProbs[3] = PROB_SUM - playProbs[0] - playProbs[1] - playProbs[2];
 				
 			} while (playProbs[3] <= 0);
 			
@@ -227,7 +254,6 @@ public class Learning {
 	}
 	
 	public static void simOneAlg(int[] probs, int numSims) {
-		final int NUM_SIMS = numSims;
 		
 		Random r = new Random();
 		

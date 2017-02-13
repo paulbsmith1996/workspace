@@ -30,7 +30,7 @@ public class LinkageApp extends Applet implements Runnable {
 	
 	
 	
-	private Crank cr, cr2, cr3, cr4, cr5, cr6;
+	private Crank cr, cr2, cr3, cr4, cr5, cr6, cr7, cr8;
 	private Slider s1, s2, s3;
 	private Connector c1, c2;
 	private Vector<LComponent> components;
@@ -67,18 +67,21 @@ public class LinkageApp extends Applet implements Runnable {
 		/************** Describe cranks that make up system **************/
 		
 		
-		// Order is parent crank, length of crank, theta0, speed, color 
+		// Order is parent crank, length of crank, theta0, 	speed, 	color 
 		
-		cr = new Crank(75, 0, 19, Color.WHITE);
-		cr2 = new Crank(cr, 50, Math.PI / 4, -5, Color.BLUE);
-		cr3 = new Crank(cr2, 100, -Math.PI / 8, 5, Color.RED);
-		//cr4 = new Crank(420, 300, 17, Color.GREEN);
-		//cr5 = new Crank(460, 300, 21);
-		//cr6 = new Crank(500, 300, 25);
+		cr = new Crank(				50, 	0, 	10, 	Color.WHITE);
+		//cr2 = new Crank(cr, 100, 0, 15, Color.BLUE);
+		cr2 = new Crank(  cr, 		50, 	0, 	-10, 	Color.BLUE);
+		//cr3 = new Crank(cr2, 100, Math.PI / 2, 15, Color.BLUE);
+		cr3 = new Crank(  cr2, 		50, 	Math.PI / 2, 	30, 	Color.RED);
+		cr4 = new Crank(  cr3, 		50, 	Math.PI / 2, 	-30, 	Color.GREEN);
+		cr5 = new Crank(  cr4, 		50, 	Math.PI / 2, 	10, 	Color.MAGENTA);
+		cr6 = new Crank(  cr5, 		50, 	Math.PI / 2, 	-10, 	Color.YELLOW);
+		cr7 = new Crank(  cr6, 		0, 		Math.PI / 2, 	10, 	Color.CYAN);
+		cr8 = new Crank(  cr7, 		0, 		Math.PI / 2, 	-10, 	Color.ORANGE);
 
-		c1 = new Connector(cr3, Color.BLACK);
-		//c2 = new Connector(450, 350);
-		//c2.setFollowed(true);
+		c1 = new Connector(cr8, Color.BLACK);
+		//c2 = new Connector(cr3, Color.MAGENTA);
 		
 		
 		
@@ -86,10 +89,15 @@ public class LinkageApp extends Applet implements Runnable {
 		
 		
 		c1.setFollowed(true);
-		cr.setFollowed(true);
-		cr2.setFollowed(true);
-		cr3.setFollowed(true);
+		//c2.setFollowed(true);
+		//cr.setFollowed(true);
+		//cr2.setFollowed(true);
+		//cr3.setFollowed(true);
 		//cr4.setFollowed(true);
+		cr5.setFollowed(true);
+		//cr6.setFollowed(true);
+		//cr7.setFollowed(true);
+		//cr8.setFollowed(true);
 		
 		
 		/************* Add the components of the system ***************/
@@ -100,9 +108,11 @@ public class LinkageApp extends Applet implements Runnable {
 		components.add(cr);
 		components.add(cr2);
 		components.add(cr3);
-		//components.add(cr4);
-		//components.add(cr5);
-		//components.add(cr6);
+		components.add(cr4);
+		components.add(cr5);
+		components.add(cr6);
+		components.add(cr7);
+		components.add(cr8);
 		// components.add(s1);
 		// components.add(s2);
 		// components.add(s3);

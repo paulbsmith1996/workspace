@@ -1,16 +1,18 @@
-package com.link;
+package com.apprun;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.net.URISyntaxException;
 import java.util.Vector;
+
+import com.read.ScriptReader;
 
 /**
  * 
  * @author paulbairdsmith
- * 3 dimensional version of Applet. Creates and simulates fixed length crank systems
- * and can draw trails for all components of a system. All systems are projected into
- * 2 dimensions here.
+ * 2 dimensional version of Applet. Creates and simulates fixed length crank systems
+ * and can draw trails for all components of a system.
  */
 public class LinkageApp extends Applet implements Runnable {
 
@@ -24,7 +26,7 @@ public class LinkageApp extends Applet implements Runnable {
 	private Thread ticker;
 
 	private final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 700;
-	private final int FPS = 1000 / 50;
+	private final int FPS = 1000 / 30;
 
 	
 	
@@ -32,7 +34,7 @@ public class LinkageApp extends Applet implements Runnable {
 	
 	
 	
-	private Crank cr, cr2, cr3, cr4, cr5, cr6;
+	private Crank cr, cr2, cr3, cr4, cr5, cr6, cr7, cr8;
 	private Slider s1, s2, s3;
 	private Connector c1, c2;
 	private Vector<LComponent> components;
@@ -40,13 +42,13 @@ public class LinkageApp extends Applet implements Runnable {
 	private Vector<ColoredRect> trail;
 
 	private boolean functioning;
-	
+
 	
 	
 	/***********************************************************************************/
 	
 	
-
+	
 	public void start() {
 		if (ticker == null || !ticker.isAlive()) {
 			running = true;
@@ -64,45 +66,17 @@ public class LinkageApp extends Applet implements Runnable {
 		functioning = true;
 
 		trail = new Vector<ColoredRect>();
-
 		
-		/**************** Pick normal vectors for the cranks ***********************/
+		ScriptReader fileReader = new ScriptReader("williams/l");
 		
+		try {
+			fileReader.scan();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		double[] norm1 = {0, 1, 0};
-		double[] norm2 = {1, 0, 0};
-		//double[] norm3 = {1, 0, 0};
-
-		
-		/***************** Describe the cranks here ********************************/
-		
-		
-		// Order is parent crank, length of crank, theta0, normal vector, speed, color 		
-		
-		
-		cr = new Crank(25, 0, norm1, 4, Color.WHITE);
-		cr2 = new Crank(cr, 50, 0, norm1, -8, Color.BLUE);
-		cr3 = new Crank(cr2, 125, 0, norm2, 4, Color.RED);
-		
-
-		c1 = new Connector(cr3, Color.BLACK);
-		
-		
-		/************************** Pick which cranks to follow *********************/
-		
-		
-		c1.setFollowed(true);
-		//cr3.setFollowed(true);
-		//cr3.setFollowed(true);
-		
-		
-		/******************* Add the cranks, connector to components ****************/
-		
-		
-		components.add(c1);
-		components.add(cr);
-		components.add(cr2);
-		components.add(cr3);
+		this.components = fileReader.getComponents();
 	}
 
 	@Override
@@ -131,6 +105,29 @@ public class LinkageApp extends Applet implements Runnable {
 					}
 				}
 			}
+			
+			// Check all components to see that their movement follows a valid 
+			// instruction set. Halt the system if any component does not follow
+			// a valid instruction set
+			for (int i = 0; i < components.size(); i++) {
+				LComponent c = components.elementAt(i);
+				for (LCompAssoc compAssoc : c.getConnected()) {
+
+					LComponent currComp = compAssoc.getComp();
+
+					int deltaX = c.getX() - currComp.getX();
+					int deltaY = c.getY() - currComp.getY();
+
+					double currDistance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+
+					double distDif = compAssoc.getDistance() - currDistance;
+
+					if (distDif > 1.5 || distDif < -1.5) {
+						functioning = false;
+						currComp.setFunctioning(false);
+					}
+				}
+			}
 
 			repaint();
 
@@ -152,7 +149,10 @@ public class LinkageApp extends Applet implements Runnable {
 			c.draw(g);
 		}
 
-		for (ColoredRect colRect : trail) {
+		int trailSize = trail.size();
+		
+		for (int i = 0; i < trailSize; i++) {
+			ColoredRect colRect = trail.elementAt(i);
 			Rectangle r = colRect.getRect();
 			Color col = colRect.getColor();
 			g.setColor(col);

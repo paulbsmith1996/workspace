@@ -1,0 +1,32 @@
+This file is to explain how to write a script for a crank system.
+
+Each line of the script represents one crank, with all information, including
+name length, speed, initial angle, color of trail left, and whether of not it
+is being followed. Each line should be formatted as follows:
+
+<name> l: <length> s: <speed> t: <initial angle / pi> c: <color> (f)
+
+The <length>, <speed>, and <initial angle> attributes can be given in any
+order, so long as they are formatted in the same manner and are all separated
+by a space character. The <color> attribute must be specified last and the f
+flag at the end an be place anywhere in the line, as long as it separated by a
+space character from the text on each side. This presence or absence of this
+flag determines whether or not the crank scripted by that specific line will
+leave a breadcrumb trail of the specified color. 
+
+A sample script for a crank system would resemble this:
+
+
+rootcrank l: 150 s: 10 t: 0 c: white 
+secondcrank l: 50 s: -30 t: 0 c: red f
+
+
+(In fact, this crank system would draw an astroid curve)
+
+The trailing end of the last crank will automatically be set to be followed
+in BLACK. This means the characteristic curve of the crank system is always
+traced in BLACK if you are using this method of scripting crank systems.
+
+The root crank of the system is the first line of the script and all
+subsequent cranks are children of the crank created by the preceding line in
+the script.

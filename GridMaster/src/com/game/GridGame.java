@@ -21,6 +21,11 @@ public class GridGame extends Applet implements Runnable {
 	private int[] colorCounts;
 	private Player player;
 	
+	private final int PROB_RIGHT = 300;
+	private final int PROB_LEFT  = 200;
+	private final int PROB_DOWN  = 200;
+	private final int PROB_UP    = 300;
+	
 	public void setRunning(boolean b) { this.running = b; }
 	
 	public void init() {
@@ -28,7 +33,7 @@ public class GridGame extends Applet implements Runnable {
 
 		grid = new Grid(30, 30, GRID_SIZE, GRID_SIZE);
 
-		int[] probs = { 400, 400, 100, 100 };
+		int[] probs = { PROB_RIGHT, PROB_LEFT, PROB_DOWN, PROB_UP };
 
 		setPlayer(probs);
 		grid.addPlayer(grid.getWidth() - 1, grid.getHeight() - 1, 1);

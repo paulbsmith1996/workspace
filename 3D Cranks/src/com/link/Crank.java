@@ -24,7 +24,7 @@ public class Crank extends LComponent{
 	 * @param x - x coordinate of crank
 	 * @param y - y coordinate of crank
 	 * @param z - z coordinate of crank
-	 * @param norm - noraml vector to crank
+	 * @param norm - normal vector to crank
 	 * @param speed - crank speed
 	 * @param color - color of crank trail
 	 */
@@ -58,7 +58,7 @@ public class Crank extends LComponent{
 		
 		// Build LComponent at the correct distance away from parent. Original
 		// position will be fixed by first call to move() method as long as
-		// the distance beteen parent and child is correct
+		// the distance between parent and child is correct
 		super(	parent.getX() + parent.getLength(),
 				parent.getY(), 
 				parent.getZ(), 
@@ -68,6 +68,13 @@ public class Crank extends LComponent{
 		this.theta0 = theta0;
 		this.norm = norm;
 		this.speed = speed;
+		
+		if( parent.norm[0] == 0 && parent.norm[2] == 0) {
+			setX(getX() - parent.getLength());
+			setY(getY() + parent.getLength());
+			setZ(getZ());
+		}
+		
 		
 		// Connect this crank to its parent
 		parent.connect(this);
@@ -79,6 +86,9 @@ public class Crank extends LComponent{
 	
 	// Return initial angle of crank
 	public double getTheta0() { return this.theta0; }
+	
+	// Return the vector normal to the crank's path
+	public double[] getNorm() { return this.norm; }
 	
 	// Moves the crank's children according to its own information for
 	// speed and length
