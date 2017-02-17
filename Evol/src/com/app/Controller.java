@@ -26,7 +26,7 @@ public class Controller extends Vector<GameObject> {
 			} else if(obj instanceof Creature && ((Creature) obj).getFoodPoints() <= 0) {
 				remove(obj);				
 				modified = true;
-				printCreatureNum();
+				//printCreatureNum();
 				break;
 			}
 			

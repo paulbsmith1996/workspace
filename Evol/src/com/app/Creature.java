@@ -18,14 +18,17 @@ public class Creature extends GameObject {
 	private Random rand;
 
 	private int count;
+	private static int divideCount = 0;
 
 	private final int ROTATE_SPEED = 10;
 	private final int DEFAULT_DIVISION_THRESHOLD = 30000;
+	//private final int DEFAULT_DIVISION_THRESHOLD = 10000;
 	private final int START_MOVE_SPEED = 10;
 	private final int START_EAT_SPEED = 100;
 	private final int DEFAULT_FP = 3000;
 	private final int DEFAULT_STARVING_RATE = 20;
 	private final int VISION_DISTANCE = 100;
+	private final int MUTATION_RATE = 10;
 
 	private int starvingRate = DEFAULT_STARVING_RATE;
 	private int divisionThreshold = DEFAULT_DIVISION_THRESHOLD; 
@@ -36,19 +39,31 @@ public class Creature extends GameObject {
 	private Evol game;
 
 	private int gameWidth, gameHeight;
+	private Rectangle gameBounds;
 
 	// This will hold the x/y coordinates of two points:
 	// the x/y coordinate of the creature and the edge of
 	// the window that the creature is looking at
 	private int[][] vision;
 
+	private int gene1 = 0;
+	private int gene2 = 0;
+	private int gene3 = 0;
+	private int gene4 = 0;
+	private int gene5 = 0;
+	private int stimuli = 0;
+	
 	private boolean stimulated;
 
-	private boolean stimFood;
-	private boolean stimFlee;
-	private boolean stimFight;
-
-	private boolean eating;
+	private final int STIM_FOOD = 1;
+	private final int STIM_FLEE = 2;
+	private final int STIM_FIGHT = 4;
+	private final int ON_FOOD = 8;
+	
+	// NUM_INSTRUCTIONS * INSTRUCTION_LENGTH <= 32
+	private final int NUM_INSTRUCTIONS = 10;
+	private final int INSTRUCTION_LENGTH = 2;
+	
 	private int fleeing;
 	private boolean dead;
 
@@ -60,14 +75,20 @@ public class Creature extends GameObject {
 	private int movementSpeed;
 
 	private int species;
+	
+	private int instCount;
 
 	public Creature(int x, int y, double rot, int species, Evol game) {
 		super(x, y);
+		
+		rand = new Random();
 
 		this.game = game;
 
 		this.gameWidth = game.getWidth();
 		this.gameHeight = game.getHeight();
+		
+		this.gameBounds = game.getBounds();
 
 		this.enviObjects = game.getController();
 
@@ -81,20 +102,43 @@ public class Creature extends GameObject {
 		this.rot = 0;
 
 		this.stimulated = false;
-		this.stimFood = false;
-		this.stimFlee = false;
-		this.stimFight = false;
-		this.eating = false;
+		
+		//this.stimFood = false;
+		//this.stimFlee = false;
+		//this.stimFight = false;
+		//this.eating = false;
+		
+		// Pick a random sequence of 0's and 1's so long as the first 12 digits are 1
+		//this.gene = rand.nextLong() | 4095;
+		
+		// Instructions for on food source
+		this.gene1 = rand.nextInt();
+		
+		// Instructions for seeing predator
+		this.gene2 = rand.nextInt();
+		this.gene2 |= 2;
+		this.gene2 &= (~1);
+		
+		// Instructions for seeing prey
+		this.gene3 = rand.nextInt();
+		
+		// Instructions for seeing a food source 
+		this.gene4 = rand.nextInt();
+		
+		// Instructions for no stimulation
+		this.gene5 = rand.nextInt();
+		
 		this.fleeing = 0;
 		this.dead = false;
 
-		this.foodPoints = DEFAULT_FP;
+		this.foodPoints = DEFAULT_FP * (species + 1);
 		this.movementSpeed = START_MOVE_SPEED;
 		this.eatSpeed = START_EAT_SPEED;
 		
 		this.starvingRate *= (2 * species + 1);
 		
 		this.divisionThreshold *= (4 * species) + 1;
+		//this.divisionThreshold *= (12 * species) + 1;
 
 		xPoints[0] = x;
 		xPoints[1] = x - width / 2;
@@ -108,10 +152,55 @@ public class Creature extends GameObject {
 		rotate(rot);
 
 		count = 0;
-
-		rand = new Random();
+		instCount = 0;
 	}
 	
+	public void setGene1(int gene1) { this.gene1 = gene1; }
+	public int getGene1() { return this.gene1; }
+	
+	public int getGene2() {
+		return gene2;
+	}
+
+	public void setGene2(int gene2) {
+		this.gene2 = gene2;
+	}
+
+	public int getGene3() {
+		return gene3;
+	}
+
+	public void setGene3(int gene3) {
+		this.gene3 = gene3;
+	}
+
+	public int getGene4() {
+		return gene4;
+	}
+
+	public void setGene4(int gene4) {
+		this.gene4 = gene4;
+	}
+
+	public int getGene5() {
+		return gene5;
+	}
+
+	public void setGene5(int gene5) {
+		this.gene5 = gene5;
+	}
+
+	public void setStimFood() { this.stimuli |= STIM_FOOD; }
+	public boolean getStimFood() { return (this.stimuli& STIM_FOOD) != 0; }
+	
+	public void setStimFlee() { this.stimuli |= STIM_FLEE; }
+	public boolean getStimFlee() { return (this.stimuli & STIM_FLEE) != 0; }
+	
+	public void setStimFight() { this.stimuli |= STIM_FIGHT; }
+	public boolean getStimFight() { return (this.stimuli & STIM_FIGHT) != 0; }
+	
+	public void setOnFood() { this.stimuli |= ON_FOOD; }
+	public boolean getOnFood() { return (this.stimuli & ON_FOOD) != 0; }
 	
 
 	public int getStarvingRate() {
@@ -193,9 +282,12 @@ public class Creature extends GameObject {
 		int numObjects = enviObjects.size();
 
 		stimulated = false;
-		stimFood = false;
-		stimFlee = false;
-		stimFight = false;
+		//stimFood = false;
+		//stimFlee = false;
+		//stimFight = false;
+		
+		// Sets the first 4 bits to 0 
+		stimuli &= (~15);
 
 		for (int i = 0; i < numObjects; i++) {
 			GameObject obj = enviObjects.elementAt(i);
@@ -209,8 +301,11 @@ public class Creature extends GameObject {
 				// Make separate if check to check if food in case add more
 				// objects later
 				if (obj instanceof Food && species < 1 && fleeing <= 0) {
-					eating = true;
+					//eating = true;
+					setOnFood();
+					
 					eat((Food) obj);
+					
 					break;
 				} else if (obj instanceof Creature) {
 					
@@ -230,13 +325,16 @@ public class Creature extends GameObject {
 				stimulated = true;
 
 				if (obj instanceof Food && species < 1) {
-					stimFood = true;
+					//stimFood = true;
+					setStimFood();
 				} else if (obj instanceof Creature) {
 					if (((Creature) obj).getSpecies() > species) {
-						stimFlee = true; // die() if too close;
+						//stimFlee = true; // die() if too close;
+						setStimFlee();
 					} else if (((Creature) obj).getSpecies() < species) {
-						stimFight = true; // kill((Creature)obj) if close
+						//stimFight = true; // kill((Creature)obj) if close
 											// enough;
+						setStimFight();
 					}
 				}
 
@@ -248,13 +346,16 @@ public class Creature extends GameObject {
 				stimulated = true;
 
 				if (obj instanceof Food && species < 1) {
-					stimFood = true;
+					//stimFood = true;
+					setStimFood();
 				} else if (obj instanceof Creature) {
 					if (((Creature) obj).getSpecies() > species) {
-						stimFlee = true; // die() if too close;
+						//stimFlee = true; // die() if too close;
+						setStimFlee();
 					} else if (((Creature) obj).getSpecies() < species) {
-						stimFight = true; // kill((Creature)obj) if close
+						//stimFight = true; // kill((Creature)obj) if close
 											// enough;
+						setStimFight();
 					}
 				}
 
@@ -266,13 +367,16 @@ public class Creature extends GameObject {
 				stimulated = true;
 
 				if (obj instanceof Food && species < 1) {
-					stimFood = true;
+					//stimFood = true;
+					setStimFood();
 				} else if (obj instanceof Creature) {
 					if (((Creature) obj).getSpecies() > species) {
-						stimFlee = true; // die() if too close;
+						//stimFlee = true; // die() if too close;
+						setStimFlee();
 					} else if (((Creature) obj).getSpecies() < species) {
-						stimFight = true; // kill((Creature)obj) if close
+						//stimFight = true; // kill((Creature)obj) if close
 											// enough;
+						setStimFight();
 					}
 				}
 
@@ -284,19 +388,23 @@ public class Creature extends GameObject {
 				stimulated = true;
 
 				if (obj instanceof Food && species < 1) {
-					stimFood = true;
+					//stimFood = true;
+					setStimFood();
 				} else if (obj instanceof Creature) {
 					if (((Creature) obj).getSpecies() > species) {
-						stimFlee = true; // die() if too close;
+						//stimFlee = true; // die() if too close;
+						setStimFlee();
 					} else if (((Creature) obj).getSpecies() < species) {
-						stimFight = true; // kill((Creature)obj) if close
+						//stimFight = true; // kill((Creature)obj) if close
 											// enough;
+						setStimFight();
 					}
 				}
 
 			}
 
-			eating = false;
+			//eating = false;
+			stimuli &= (~ON_FOOD);
 
 		}
 
@@ -377,48 +485,121 @@ public class Creature extends GameObject {
 
 	public void move() {
 		if (!dead) {
-			int turn = rand.nextInt(100);
+			
+			
+			
+			
+			if (species < 2) {
+				foodPoints -= starvingRate;
+				setSize(foodPoints);
 
-			foodPoints -= starvingRate;
-			setSize(foodPoints);
+				/*
+				if (!getStimFlee()) {
+					checkStimulus();
+				}
+				
 
-			checkStimulus();
+				if (instCount == 0) {
+					stimuli &= (~STIM_FLEE);
+				}
+				*/
 
-			if (stimFlee) {
-				fleeing = 11;
-				rotate((Math.PI / 2) * (2 * rand.nextInt(2) - 1));
-				advance(game.getBounds());
+				// 64 bits in a long - 4 bits for conds = 60 bits to use for
+				// sequence
+				if (getStimFlee()) {
+					// Spotted a predator
+					execute(gene2, instCount);
+				} else if (getOnFood()) {
+					// On a food source
+					execute(gene1, instCount);
+				} else if (getStimFight()) {
+					// Spotted prey
+					execute(gene3, instCount);
+				} else if (getStimFood()) {
+					// Spotted food
+					execute(gene4, instCount);
+				} else {
+					// Unstimulated
+					execute(gene5, instCount);
+				}
+
+				instCount++;
+				instCount %= NUM_INSTRUCTIONS;
+
+				if (checkDivide()) {
+					divide();
+				}
+				
 			}
 			
-			if (!eating) {
-				
-				if (stimFood || stimFight) {
+			
+			
+			/*
+			if (species == 1) {
+				int turn = rand.nextInt(100);
+
+				foodPoints -= starvingRate;
+				setSize(foodPoints);
+
+				checkStimulus();
+
+				if (getStimFlee()) {
+					fleeing = 11;
+					rotate((Math.PI / 2) * (2 * rand.nextInt(2) - 1));
 					advance(game.getBounds());
-				} else {
-					if (count == 0) {
-						if (turn < 30) {
-							rotate((Math.PI / 2) * (2 * rand.nextInt(2) - 1));
+				}
+
+				if (!getOnFood()) {
+
+					if (getStimFood() || getStimFight()) {
+						advance(game.getBounds());
+					} else {
+						if (count == 0) {
+							if (turn < 30) {
+								rotate((Math.PI / 2) * (2 * rand.nextInt(2) - 1));
+							} else {
+								advance(game.getBounds());
+								count = rand.nextInt(10) * 10 / movementSpeed;
+							}
 						} else {
 							advance(game.getBounds());
-							count = rand.nextInt(10) * 10 / movementSpeed;
+							count--;
 						}
-					} else {
-						advance(game.getBounds());
-						count--;
 					}
+				} else {
+					count = 0;
+					rotate(Math.PI / 2);
 				}
-			} else {
-				count = 0;
-				rotate(Math.PI / 2);
-			}
 
-			if (checkDivide()) {
-				divide();
+				if (checkDivide()) {
+					divide();
+				}
+
+				fleeing--;
 			}
-			
-			fleeing--;
+			*/
 		}
 
+	}
+	
+	// Will execute the moves corresponding to the sequence of moves 
+	// starting at the indicated start bit in the gene
+	public void execute(int gene, int inst) {
+		// 111111111111 = 2^13 - 1 = 4095
+		
+		//long moveSeq = (((4095 << start) & gene) >> (64 - start));
+		
+		int move = (int)((gene >> (INSTRUCTION_LENGTH * inst)) & 3);
+		
+		if(move == 3) {
+			rotate(Math.PI / 2);
+		} else if(move == 2) {
+			rotate(3 * Math.PI / 2);
+		} else if(move == 1) {
+			checkStimulus();
+		} else {
+			advance(gameBounds);
+		}
 	}
 
 	public void advance(Rectangle bounds) {
@@ -451,6 +632,18 @@ public class Creature extends GameObject {
 	}
 
 	public void divide() {
+		divideCount++;
+		
+		if(divideCount % 10 == 0) {
+			System.out.println(divideCount + " divisions have occurred --- Species: " + species + "\n\n" 
+							 + "Gene 1: " + Integer.toBinaryString(gene1) + "\n"
+							 + "Gene 2: " + Integer.toBinaryString(gene2) + "\n"
+							 + "Gene 3: " + Integer.toBinaryString(gene3) + "\n"
+							 + "Gene 4: " + Integer.toBinaryString(gene4) + "\n"
+							 + "Gene 5: " + Integer.toBinaryString(gene5) + "\n\n"
+							 + "----------------------------------------------\n\n");
+		}
+		
 		Rectangle bounds = game.getBounds();
 		
 		foodPoints = DEFAULT_FP;
@@ -460,13 +653,51 @@ public class Creature extends GameObject {
 		
 		for(int i = 0; i < 3 - (2 * species); i++) {
 			Creature child = new Creature(getX(), getY(), (Math.PI / 2) * (i + 1), species, game);
+			
+			child.setGene1(gene1);
+			child.setGene2(gene2);
+			child.setGene3(gene3);
+			child.setGene4(gene4);
+			child.setGene5(gene5);
+			
+			int numMutations = rand.nextInt(MUTATION_RATE);
+			
+			for(int j = 0; j < numMutations; j++) {
+				child.mutate();
+			}
+			
 			enviObjects.add(child);
 			child.advance(bounds);
 		}
 		
 		advance(bounds);
 
-		enviObjects.printCreatureNum();
+		//enviObjects.printCreatureNum();
+	}
+	
+	// Mutate one instruction in one gene
+	public void mutate() {
+		//int instIndex = rand.nextInt(NUM_INSTRUCTIONS);
+		//int mutIndex = instIndex * INSTRUCTION_LENGTH;
+		
+		//int inst1s = (int)Math.pow(2, INSTRUCTION_LENGTH) - 1;
+		
+		int mutIndex = 1 << rand.nextInt(32);
+		
+		int geneNum = rand.nextInt(5) + 1;
+		
+		// Toggles the bit at the mutIndex index
+		if(geneNum == 1) {
+			setGene1(gene1 ^= mutIndex);
+		} else if(geneNum == 2) {
+			setGene2(gene2 ^= mutIndex);
+		} else if(geneNum == 3) {
+			setGene3(gene3 ^= mutIndex);
+		} else if(geneNum == 4) {
+			setGene4(gene4 ^= mutIndex);
+		} else {
+			setGene5(gene5 ^= mutIndex);
+		}
 	}
 
 	@Override
@@ -492,11 +723,11 @@ public class Creature extends GameObject {
 		g.fillPolygon(approxX, approxY, 3);
 
 		if (stimulated) {
-			if (stimFood || stimFight) {
-				g.setColor(Color.GREEN);
-			} else if (stimFlee) {
+			if (getStimFlee()) {
 				// Sees another Creature
 				g.setColor(Color.RED);
+			} else if (getStimFood() || getStimFight()) {
+				g.setColor(Color.GREEN);
 			} else {
 				g.setColor(Color.ORANGE);
 			}

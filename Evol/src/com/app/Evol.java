@@ -10,7 +10,7 @@ public class Evol extends Applet implements Runnable {
 	private boolean running;
 	private Thread ticker;
 	
-	private final int WINDOW_WIDTH = 700, WINDOW_HEIGHT = 700;
+	private final int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 700;
 	private final int OFFSET = 50;
 	private final int FPS = 30;
 	
@@ -19,12 +19,12 @@ public class Evol extends Applet implements Runnable {
 	private Creature test, test2, enemy, enemy2;
 	private Food testFood, testFood2;
 	
-	private int HERB_START_COUNT = 100, PRED_START_COUNT = 10;
+	private int HERB_START_COUNT = 10, PRED_START_COUNT = 0, FOOD_START_COUNT = 3000, MAX_FOOD = 1000;
 	
 	private Random r;
 	
 	// Number of food sources generated per frame rendering * 1000
-	private final int FOOD_GEN_RATE = 600;
+	private final int FOOD_GEN_RATE = 800;
 	
 	public void start() {
 		if (ticker == null || !ticker.isAlive()) {
@@ -42,25 +42,23 @@ public class Evol extends Applet implements Runnable {
 		
 		controller = new Controller();
 		
+		for(int i = 0; i < FOOD_START_COUNT; i++) {
+			controller.add(new Food(r.nextInt(WINDOW_WIDTH - OFFSET), r.nextInt(WINDOW_HEIGHT - OFFSET), r.nextInt(10000)));
+		}
+		
 		for(int i = 0; i < HERB_START_COUNT; i++) {
 			controller.add(new Creature(r.nextInt(WINDOW_WIDTH - OFFSET), r.nextInt(WINDOW_HEIGHT - OFFSET), 
 									0, 0, this));
 		}
 		
-		testFood = new Food(150, 400, 10000);
-		testFood2 = new Food(350, 50, 5000);
-		
-		//controller.add(test);
-		//controller.add(test2);
-		
 		
 		for(int i = 0; i < PRED_START_COUNT; i++) {
-			enemy = new Creature(r.nextInt(450), r.nextInt(450), 0, 1, this);
+			enemy = new Creature(r.nextInt(WINDOW_WIDTH - OFFSET), r.nextInt(WINDOW_HEIGHT - OFFSET), 
+									0, 1, this);
 			controller.add(enemy);
 		}
-
-		controller.add(testFood);
-		controller.add(testFood2);
+		
+		
 	}
 	
 	public void run() {
@@ -69,6 +67,7 @@ public class Evol extends Applet implements Runnable {
 			int contSize = controller.size();
 			int predCount = 0;
 			int vegCount = 0;
+			int foodCount = 0;
 			
 			for(int i = 0; i < contSize; i++) {
 				GameObject obj = controller.elementAt(i);
@@ -79,26 +78,31 @@ public class Evol extends Applet implements Runnable {
 						vegCount++;
 					}
 					((Creature) obj).move();
+				} else if(obj instanceof Food) {
+					foodCount++;
 				}
 			}
 			
 			controller.testObjects();
 			
-			if(r.nextInt(1000) < FOOD_GEN_RATE) {
+			if(foodCount < MAX_FOOD && r.nextInt(1000) < FOOD_GEN_RATE) {
 				controller.add(new Food(r.nextInt(WINDOW_WIDTH - OFFSET), r.nextInt(WINDOW_HEIGHT - OFFSET), r.nextInt(10000)));
 			}
-			/*
+			
+			
 			if(predCount < 1 && r.nextInt(10) < 4) {
-				Creature newPred = new Creature(r.nextInt(450), r.nextInt(450), 0, this);
-				newPred.setSpecies(1);
+				Creature newPred = new Creature(r.nextInt(WINDOW_WIDTH - OFFSET), r.nextInt(WINDOW_HEIGHT - OFFSET), 0, 1, this);
+				//newPred.setSpecies(1);
 				controller.add(newPred);
 			}
-			*/
 			
+			
+			/*
 			if(vegCount < 1 && r.nextInt(10) < 4) {
 				Creature newVeg = new Creature(r.nextInt(450), r.nextInt(450), 0, 0, this);				
 				controller.add(newVeg);
 			}
+			*/
 			
 			repaint();
 			
