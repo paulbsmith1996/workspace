@@ -17,6 +17,8 @@ import components.TextMenu;
 
 public class GameMenuHandler {
 
+	private final int OFFSET = 15;
+	
 	private KeyInput kInput;
 	private Player player;
 	private TextMenu gMenu;
@@ -29,6 +31,7 @@ public class GameMenuHandler {
 	
 	public GameMenuHandler(KeyInput kInput, Player player, 
 			int appWidth, Game game) {
+		
 		this.kInput = kInput;
 		this.game = game;
 		
@@ -46,7 +49,7 @@ public class GameMenuHandler {
 	public void gMenuSetUp() {
 		
 		final int WIDTH = 80;
-		final int X = appWidth - WIDTH;
+		final int X = appWidth - (WIDTH + OFFSET);
 		
 		int numOps = 0;
 		int mWidth = 0;
@@ -61,17 +64,21 @@ public class GameMenuHandler {
 		switch (state) {
 		case MAIN:
 			String[] choices = { "Inventory", "Stats", "Equipped", "Exit", "Main Menu" };
+			
 			if (gMenu == null
 					|| (gMenu.getOptions() != choices)) {
 				gMenu = new TextMenu(choices, 1, X, 10, game, true);
 			}
+			
 			numOps = choices.length;
 			mWidth = 1;
+			
 			if (gMenu.getOptions() == choices
 					&& (kInput.numOps() != numOps || kInput.getMenuWidth() != mWidth)) {
 				kInput.setOptionNum(numOps);
 				kInput.setMenuWidth(mWidth);
 			}
+			
 			if (kInput.ready()) {
 				int selected = gMenu.getSelected();
 				
@@ -91,7 +98,9 @@ public class GameMenuHandler {
 					// Main Menu Selected
 					game.setState(GameState.MENU);
 				}
+				
 				setReady(false);
+				
 			} else if(kInput.goBack()) {
 				setPause(false);
 			}
@@ -167,7 +176,7 @@ public class GameMenuHandler {
 	
 	public void displayInfo(String text) {
 		
-		this.infoBox = new TextBox(10, 10, game.getWidth(), 30, game);
+		this.infoBox = new TextBox(10, 10, game.getWidth(), 30, game, true);
 		
 		infoBox.setText(text);
 		infoBox.setDelimiter("\n");
@@ -182,9 +191,9 @@ public class GameMenuHandler {
 	}
 	
 	public void displayMText(String text, boolean wrap) {
-		int width = 130;
+		int width = 200;
 		
-		tBox = new TextBox(game.getWidth() - width, 10, width, 105, game);
+		tBox = new TextBox(game.getWidth() - width - OFFSET, 10, width, 105, game, true);
 		tBox.setWrap(wrap);
 		tBox.setText(text);
 		tBox.setDelimiter("\n");

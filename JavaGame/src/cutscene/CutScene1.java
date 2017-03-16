@@ -14,6 +14,9 @@ import components.TextBox;
 
 public class CutScene1 extends CutScene {
 	
+	private final int TEXT_X = 0, TEXT_Y = Game.HEIGHT - 31;
+	private final int TEXT_WIDTH = Game.WIDTH, TEXT_HEIGHT = 30; 
+	
 	public CutScene1(Game game) {
 		super(game);
 	}
@@ -24,9 +27,12 @@ public class CutScene1 extends CutScene {
 		Game game = getGame();
 		Player player = game.getPlayer();
 		
+		int playerX = game.getWidth() / 2 - player.getWidth() / 2;
+		int playerY = game.getHeight() - player.getHeight() - 60;
+		
 		player.setStill();
-		player.setPos(game.getWidth() / 2 - player.getWidth() / 2,
-				game.getHeight() - player.getHeight() - 30);
+		player.setPos(playerX, playerY);
+				
 		
 		Tella1 t = new Tella1(0, 10);
 		
@@ -57,7 +63,7 @@ public class CutScene1 extends CutScene {
 		t.draw(g);
 		player.draw(g);
 		
-		TextBox tBox = new TextBox(0, 270, 500, 30, game);
+		TextBox tBox = new TextBox(TEXT_X, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT, game, false);
 		
 		tBox.setVisible(true);
 		game.sleep(60);

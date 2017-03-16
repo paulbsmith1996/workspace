@@ -8,8 +8,14 @@ import misc.KeyInput;
 
 public class TextMenu {
 
-	private String[] choices;
 	private final int OFFSET = 10;
+	private final int ARC_WIDTH = 5, ARC_HEIGHT = 10;
+	private final int INNER_X_OFFSET = 3, INNER_Y_OFFSET = 3;
+	
+	private final int TEXT_X_OFFSET = 10, TEXT_Y_OFFSET = 5;
+	private final int BUFFER = 3;
+	
+	private String[] choices;
 	private int x, y, width;
 	private boolean visible = true;
 	private int selected;
@@ -66,32 +72,63 @@ public class TextMenu {
 		
 		if (visible) {
 			
-			g.setColor(Color.RED);
 			String longest = "";
 			for(String s: choices) {
 				if(s.length() > longest.length()) {
 					longest = s;
 				}
 			}
-			int length = longest.length();
-			g.fillRect(x - 3, y - 3, length * 10 * width, 
-					choices.length * g.getFontMetrics().getHeight());
+			
+			int realWidth = width;
+			
+			if(choices.length < width) {
+				realWidth = choices.length;
+			}
+			
+			int length = g.getFontMetrics().stringWidth(longest);
+			int numRows = (int)Math.ceil((double)choices.length / (double)width);
+			
+			while(x + length * realWidth + (realWidth + 1) * TEXT_X_OFFSET + BUFFER > game.getWidth()) {
+				x--;
+			}
+			
+			while(y + numRows * g.getFontMetrics().getHeight() + 2 * TEXT_Y_OFFSET > game.getHeight()) {
+				y--;
+			}
+
+			g.setColor(Color.WHITE);
+			g.fillRoundRect(x, y, 
+							length * realWidth + (realWidth + 1) * TEXT_X_OFFSET + BUFFER, 
+							numRows * g.getFontMetrics().getHeight() + 2 * TEXT_Y_OFFSET,
+							ARC_WIDTH, ARC_HEIGHT);
+			
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(x, y,
+							length * realWidth + (realWidth + 1) * TEXT_X_OFFSET + BUFFER, 
+							numRows * g.getFontMetrics().getHeight() + 2 * TEXT_Y_OFFSET, 
+							ARC_WIDTH, ARC_HEIGHT);
+			
+			g.drawRoundRect(x + INNER_X_OFFSET, 
+							y + INNER_Y_OFFSET, 
+							length * realWidth - 2 * INNER_X_OFFSET + (realWidth + 1) * TEXT_X_OFFSET + BUFFER,
+							numRows * g.getFontMetrics().getHeight() - 2 * INNER_Y_OFFSET + 2 * TEXT_Y_OFFSET, 
+							ARC_WIDTH, ARC_HEIGHT);
 			
 			int tempX = x;
-			int tempY = y;
+			int tempY = y + INNER_Y_OFFSET + TEXT_Y_OFFSET;
 			
 			for (String s : choices) {
 				
 				if(optionNum == selected + 1) {
 					g.setColor(Color.BLUE);
-					g.fillOval(tempX, tempY + OFFSET / 2, 3, 3);
+					g.fillOval(tempX + 5, tempY + OFFSET / 2 - 2, 5, 5);
 					
 				}
 				
 				g.setColor(Color.BLACK);
 				g.drawString(s, tempX + OFFSET, tempY + OFFSET);
 				if (optionNum % width != 0) {
-					tempX += s.length() * 10;
+					tempX += length + TEXT_X_OFFSET;
 				} else {
 					tempY += g.getFontMetrics().getHeight();
 					tempX = x;

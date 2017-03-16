@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 public class Food extends GameObject {
 
+	
 	private int amount;
 	private int diameter;
 	

@@ -6,17 +6,17 @@ import misc.Controller;
 
 public class TileManager {
 
-	private Vector<Tile> worldTiles = new Vector<Tile>();
+	private static Vector<Tile> worldTiles = new Vector<Tile>();
 
-	private Tile[][] world;
-	private Controller c;
+	private static Tile[][] world;
+	private static Controller c;
 	
 	public static final int MERCHANT_X = 2;
 	public static final int MERCHANT_Y = 2;
 	
-	public TileManager() {
+	public static void initTileManager() {
 		world = new Tile[101][101];
-		this.c = null;
+		c = null;
 		
 		worldTiles.add(new Tile0_0());
 		worldTiles.add(new Tile0_1());		
@@ -55,7 +55,7 @@ public class TileManager {
 		makeWorld();
 	}
 	
-	public Tile[][] makeWorld() {
+	public static Tile[][] makeWorld() {
 		for(Tile t: worldTiles) {
 			if(t.getXCoord() < world.length && t.getYCoord() < world[0].length) {
 				world[t.getXCoord()][t.getYCoord()] = t;
@@ -64,9 +64,8 @@ public class TileManager {
 		return world;
 	}
 	
-	public Controller getController() { return this.c; }
-	
-	public Tile getTile(int xCoord, int yCoord) {
+	//public static Controller getController() { return c; }
+	public static Controller getController(int xCoord, int yCoord) {
 		Tile t = null;
 		
 		if(xCoord < world.length && yCoord < world[0].length) {
@@ -76,7 +75,17 @@ public class TileManager {
 		if(t != null) {
 			c = t.getController();
 		} else {
-			c = new Controller();
+			c = null;
+		}
+		
+		return c;
+	}
+	
+	public static Tile getTile(int xCoord, int yCoord) {
+		Tile t = null;
+		
+		if(xCoord < world.length && yCoord < world[0].length) {
+			t = world[xCoord][yCoord];
 		}
 		
 		return t;

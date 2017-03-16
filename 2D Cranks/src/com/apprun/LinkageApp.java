@@ -67,7 +67,7 @@ public class LinkageApp extends Applet implements Runnable {
 
 		trail = new Vector<ColoredRect>();
 		
-		ScriptReader fileReader = new ScriptReader("williams/l");
+		ScriptReader fileReader = new ScriptReader("parab[-1,3]");
 		
 		try {
 			fileReader.scan();

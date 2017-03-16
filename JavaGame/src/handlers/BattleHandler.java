@@ -12,9 +12,7 @@ import Items.Ice;
 import Items.ItemReference;
 import Items.ManaPotion;
 import Items.Spell;
-import components.HealthBar;
-import components.ManaBar;
-import components.StatusBar;
+import components.StatDisplay;
 import components.TextBox;
 import components.TextMenu;
 import gameobjects.Boss;
@@ -32,6 +30,9 @@ import resourceloaders.AudioPlayer;
 public class BattleHandler {
 
 
+	private final int TEXT_BOX_X = 0, TEXT_BOX_Y = Game.WINDOW_HEIGHT - 45;
+	private final int TEXT_BOX_WIDTH = Game.WINDOW_WIDTH, TEXT_BOX_HEIGHT = 45;
+	
     /**
      * int holding exp to be gained after battle
      */
@@ -82,14 +83,8 @@ public class BattleHandler {
     /**
      * Bars to display Player's and NPC's most important stats
      */
-    private StatusBar playStat;
-	private StatusBar oppStat;
-	
-	/**
-	 * Renderer object to render the ongoing battle. Controller c holds
-	 * information for which objects to draw
-	 */
-	private Renderer renderer;
+    private StatDisplay playStat;
+	private StatDisplay oppStat;
 	
 	private final long LOSS_TIME = 1300;
     
@@ -109,8 +104,6 @@ public class BattleHandler {
     	
     	this.g = g;
     	this.kInput = g.getInterpreter();
-    	
-    	renderer = g.getRenderer();
     
     	this.opponent = opponent;
     	
@@ -124,7 +117,7 @@ public class BattleHandler {
     	this.width = appBounds.width;
     	this.height = appBounds.height;
     	
-    	t = new TextBox(0, appBounds.height - 30, appBounds.width, 30, g);
+    	t = new TextBox(TEXT_BOX_X, TEXT_BOX_Y, TEXT_BOX_WIDTH, TEXT_BOX_HEIGHT, g, true);
     	
     	if(opponent instanceof Boss) {
     		AudioPlayer.playMusic(Audio.BOSS_MUSIC);
@@ -132,11 +125,11 @@ public class BattleHandler {
     	} else {
     		AudioPlayer.playMusic(Audio.BATTLE_MUSIC);
     	}
-		
-		playStat = new StatusBar(player);
-		oppStat = new StatusBar(opponent);
     	
     	bSetUp();
+    	
+    	playStat = new StatDisplay(player, 0);
+		oppStat = new StatDisplay(opponent, 1);
     }
     
     // Returns user's opponent
@@ -476,7 +469,7 @@ public class BattleHandler {
 	 */
 	public void displayBMenu(String[] choices, int width, boolean canExit) {
 		// Re-assign m to reflect passed variables
-		m = new TextMenu(choices, width, 0, height - 30, g, canExit);
+		m = new TextMenu(choices, width, TEXT_BOX_X, TEXT_BOX_Y, g, canExit);
 		t.setVisible(false);
 		m.select();
 	}
@@ -485,7 +478,7 @@ public class BattleHandler {
 	// Called in the paint method of Game class
 	public void draw(Graphics g) {
 		// Draw background of battle
-		renderer.renderBattle(g, width, height);
+		Renderer.renderBattle(g, width, height, this.g.getXCoord(), this.g.getYCoord());
 		
 		// Draw player and his opponent 
 		player.draw(g);

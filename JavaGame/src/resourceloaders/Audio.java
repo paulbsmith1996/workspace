@@ -12,4 +12,5 @@ public class Audio {
 	public static final String BATTLE_MUSIC = "battle";
 	public static final String BOSS_MUSIC = "boss";
 	public static final String DREAM_MUSIC = "dream";
+	public static final String HEALING_SOUND = "heal";
 }

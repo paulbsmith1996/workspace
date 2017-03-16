@@ -15,6 +15,7 @@ public class CutScene {
 	}
 	
 	public Game getGame() { return this.game; }
+	public void setGame(Game game) { this.game = game; }
 	
 	public boolean played() { return this.played; }
 	public void setPlayed(boolean b) { this.played = b; }

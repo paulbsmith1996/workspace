@@ -16,6 +16,7 @@ import Tiles.HouseT0;
 import Tiles.HouseTile;
 
 import components.TextBox;
+import cutscene.HealingScene;
 
 
 public class HouseHandler {
@@ -23,7 +24,6 @@ public class HouseHandler {
 	private HouseTile environment;
 	private KeyInput kInput;
 	private Game game;
-	private Renderer renderer;
 	private HouseType curHouse;
 	private Controller c;
 	private Player player;
@@ -32,7 +32,7 @@ public class HouseHandler {
 	
 	private boolean newHouse = true;
 	
-	public HouseHandler(Game game, Renderer renderer, Player player, int tileX, int tileY) {
+	public HouseHandler(Game game, Player player, int tileX, int tileY) {
 		this.game = game;
 		this.player = player;
 		this.c = new Controller();
@@ -40,7 +40,6 @@ public class HouseHandler {
 		this.xCoord = game.getXCoord();
 		this.yCoord = game.getYCoord();
 		
-		this.renderer = renderer;
 		this.kInput = game.getInterpreter();
 		
 		this.environment = null;
@@ -73,27 +72,7 @@ public class HouseHandler {
 		kInput.setState(GameState.HOUSE);
 		player.move(c);
 		
-		Interactable talker = player.checkInteraction(c);
-		
-		if(talker != null && kInput.isInteracting()) {
-			TextBox t = new TextBox(0, 270, 300, 30, game);
-			t.setVisible(true);
-			game.sleep(60);
-			for(String text: talker.interact()) {
-				game.sleep(60);
-				t.setText(text);
-				game.addTextBox(t);
-				game.repaint();
-				game.waitInput();
-				game.removeTextBox(t);
-			}
-			
-			game.sleep(100);
-			talker.setChecked(true);
-			if(talker instanceof Healer) {
-				((Healer) talker).heal(player);
-			}
-		}
+		NPCIHandler.interact(game, kInput, c, player);
 		
 		
 		if(player.getY() + player.getHeight() > game.getHeight()) {
@@ -109,6 +88,6 @@ public class HouseHandler {
 	}
 	
 	public void draw(Graphics g) {
-		renderer.renderHouse(g, this);
+		Renderer.renderHouse(g, this);
 	}
 }

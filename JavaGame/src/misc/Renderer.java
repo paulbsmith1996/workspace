@@ -14,41 +14,30 @@ import cutscene.CutScene;
 
 public class Renderer {
 
-	protected TileManager tManager;
-	private Controller c;
-	private Tile t;
-	private int xCoord, yCoord;
-	private boolean playingCutScene;
+	private static Controller c;
+	private static Tile t;
+	private static int xCoord, yCoord;
+	private static boolean playingCutScene;
 	
-	public Renderer(Controller c) {
-		this.c = c;
-		tManager = new TileManager();
-		this.playingCutScene = false;
+	public static void initRenderer(Controller cont) {
+		c = cont;
+		playingCutScene = false;
 	}
 	
-	public Renderer() {
-		this.c = new Controller();
-		xCoord = 9;
-		yCoord = 99;
-	}
+	public static Controller getController() { return c; }
+	public static boolean isPlayingScene() { return playingCutScene; }
 	
-	public Controller getController() { return this.c; }
-	public boolean isPlayingScene() { return this.playingCutScene; }
-	
-	public void renderMenu(Graphics g) {
+	public static void renderMenu(Graphics g) {
 		
 	}
 	
-	public void renderGame(Graphics g, int xCoord, int yCoord) {
-	
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
+	public static void renderGame(Graphics g, int xCoord, int yCoord) {
 		
 		if (t == null || t.getXCoord() != xCoord || t.getYCoord() != yCoord) {
-			t = tManager.getTile(xCoord, yCoord);
+			t = TileManager.getTile(xCoord, yCoord);
 		}
 		
-		c = tManager.getController();
+		c = TileManager.getController(xCoord, yCoord);
 		
 		if (t != null) {
 			
@@ -81,9 +70,9 @@ public class Renderer {
 		}
 	}
 	
-	public void renderBattle(Graphics g, int width, int height) {
+	public static void renderBattle(Graphics g, int width, int height, int xCoord, int yCoord) {
 		if (t == null || t.getXCoord() != xCoord || t.getYCoord() != yCoord) {
-			t = tManager.getTile(xCoord, yCoord);
+			t = TileManager.getTile(xCoord, yCoord);
 		}
 		
 		if(t != null) {
@@ -91,7 +80,7 @@ public class Renderer {
 		}
 	}
 	
-	public void renderMerchant(Graphics g, MerchantHandler mh) {
+	public static void renderMerchant(Graphics g, MerchantHandler mh) {
 		t = mh.getEnvironment();
 		
 		c = t.getController();
@@ -110,7 +99,7 @@ public class Renderer {
 		}
 	}
 	
-	public void renderHouse(Graphics g, HouseHandler hh) {
+	public static void renderHouse(Graphics g, HouseHandler hh) {
 		t = hh.houseBakground();
 		
 		c = t.getController();
@@ -129,7 +118,7 @@ public class Renderer {
 		}
 	}
 	
-	public void renderGMenu() {
+	public static void renderGMenu() {
 		
 	}
 }

@@ -195,6 +195,24 @@ public class KeyInput extends KeyAdapter {
 						break;
 					}
 				}
+			
+			} else if(key == KeyEvent.VK_LEFT) {
+				for(int x = 1; x < options.length; x++) {
+					if(options[x] && x % menuWidth != 0) {
+						options[x] = false;
+						options[x - 1] = true;
+						break;
+					}
+				}
+			} else if(key == KeyEvent.VK_RIGHT) {
+				for(int x = 0; x < options.length - 1; x++) {
+					if(options[x] && (x + 1) % menuWidth != 0) {
+						options[x] = false;
+						options[x +1] = true;
+						break;
+					}
+				}
+			
 			} else if(key == KeyEvent.VK_S) {
 				next = true;
 			} else if(key == KeyEvent.VK_D) {

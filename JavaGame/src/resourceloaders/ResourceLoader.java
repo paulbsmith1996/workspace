@@ -80,6 +80,7 @@ public class ResourceLoader {
 		AudioPlayer.addMusic(Audio.BATTLE_MUSIC, "battle.ogg");
 		AudioPlayer.addMusic(Audio.BOSS_MUSIC, "bossbattle.ogg");
 		AudioPlayer.addMusic(Audio.DREAM_MUSIC, "dream.ogg");
+		AudioPlayer.addMusic(Audio.HEALING_SOUND, "healingsound.ogg");
 	}
 
 }

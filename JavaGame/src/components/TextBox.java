@@ -12,12 +12,20 @@ import misc.Game;
 
 public class TextBox extends Rectangle {
 
-	String text = "";
-	Scanner textScan;
-	private final int X_OFFSET = 10, Y_OFFSET = 10;
+	private final int INNER_X_OFFSET = 3, INNER_Y_OFFSET = 3;
+	private final int TEXT_X_OFFSET = 5, TEXT_Y_OFFSET = 3;
+	private final int BUFFER = INNER_Y_OFFSET + 3;
+	private final int LINE_SPACING = 1;
+	
+	private String text = "";
+	private Scanner textScan;
+	
 	private boolean visible;
 	private boolean wrap = true;
+	private boolean resize = false;
 	private Game game;
+	
+	private final int ARC_WIDTH = 10, ARC_HEIGHT = 10;
 
 	public TextBox() {
 		super();
@@ -35,20 +43,23 @@ public class TextBox extends Rectangle {
 		super(d);
 	}
 
-	public TextBox(int width, int height) {
+	public TextBox(int width, int height, boolean resize) {
 		super(width, height);
+		this.resize = resize;
 	}
 
-	public TextBox(int x, int y, int width, int height, Game game) {
+	public TextBox(int x, int y, int width, int height, Game game, boolean resize) {
 		super(x, y, width, height);
 		this.game = game;
+		this.resize = resize;
 	}
 	
-	public TextBox(int x, int y, int width, int height, String text, Game game) {
+	public TextBox(int x, int y, int width, int height, String text, Game game, boolean resize) {
 		super(x, y, width, height);
 		this.text = text;
 		this.game = game;
 		textScan = new Scanner(text);
+		this.resize = resize;
 	}
 
 	public TextBox(Point p, Dimension d) {
@@ -64,13 +75,8 @@ public class TextBox extends Rectangle {
 
 	public void draw(Graphics g) {
 		if (visible) {
-			g.setColor(Color.BLACK);
-			g.drawRect(x, y, width, height);
-			g.setColor(Color.RED);
-			g.fillRect(x,y,width,height);
-			g.setColor(Color.BLACK);
 			
-			g.setFont(new Font("TimesRoman", Font.BOLD, 14));
+			g.setFont(new Font("TimesRoman", Font.BOLD, 18));
 			Vector<String> textParts = new Vector<String>();
 			
 			if (wrap && text.length() > width / 10) {
@@ -95,10 +101,36 @@ public class TextBox extends Rectangle {
 					textParts.add(text);
 				}				
 			}
+			
+			if(resize) {
+				int fontHeight = g.getFontMetrics().getHeight();
+				int numLines = textParts.size();
+				height = fontHeight * numLines 	// Count for height of actual lines
+						+ 2 * INNER_Y_OFFSET  // Account for offset at top and bottom
+						+ (numLines - 1) * LINE_SPACING // Account for spacing between lines
+						+ 2 * TEXT_Y_OFFSET; // Account for offset between inner rect and text
+				
+				while(y + height > game.getHeight()) {
+					y--;
+				}
+			}
+			
+			g.setColor(Color.WHITE);
+			g.fillRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
+			
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
+			
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(x + INNER_X_OFFSET, y + INNER_Y_OFFSET, 
+					width - 2 * INNER_X_OFFSET, height - 2 * INNER_Y_OFFSET - 3, ARC_WIDTH, ARC_HEIGHT);
+			
+			g.setColor(Color.BLACK);
 
-			int tempY = y - 5;
+			int tempY = y + g.getFontMetrics().getHeight() + INNER_Y_OFFSET + (TEXT_Y_OFFSET - BUFFER);
 			for (String s : textParts) {
-				g.drawString(s, x + X_OFFSET, tempY += 5 + Y_OFFSET);
+				g.drawString(s, x + INNER_X_OFFSET + TEXT_X_OFFSET, tempY);
+				tempY += g.getFontMetrics().getHeight() + LINE_SPACING;
 			}
 		}
 	}

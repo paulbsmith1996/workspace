@@ -35,6 +35,8 @@ import components.TextMenu;
  */
 public class MerchantHandler {
 
+	private final int MENU_X = 0, MENU_Y = 45;
+	
 	/**
 	 * Vector holds Merchant's inventory
 	 */
@@ -57,8 +59,7 @@ public class MerchantHandler {
 	 */
 	protected int playerMon;
 
-	private Controller c;	
-	private Renderer renderer;
+	private Controller c;
 	private MerchantTile environment;
 	
 	private KeyInput kInput;	
@@ -79,21 +80,19 @@ public class MerchantHandler {
 	/**
 	 * Constructor means Merchant object is aware of player
 	 */
-	public MerchantHandler(Game game, Renderer renderer, Stocks wares) {
+	public MerchantHandler(Game game, Stocks wares) {
 		
 		this.game = game;
 		this.environment = new MerchantTile();
 		this.c = environment.getController();
 		
 		this.kInput = game.getInterpreter();
-		kInput.setState(GameState.MERCHANT);
-		
-		this.renderer = renderer;		
+		kInput.setState(GameState.MERCHANT);		
 		
 		width = game.getWidth();
 		height = game.getHeight();
 		
-		t = new TextBox(0, height - 30, width, 30, game);
+		t = new TextBox(0, height - 30, width, 30, game, true);
 		
 		this.player = game.getPlayer();
 		
@@ -371,7 +370,7 @@ public class MerchantHandler {
 	
 	public void displayMoney() {
 		String money = Integer.toString(player.getInventory().getMoney());
-		moneyText = new TextBox(10, 10, 100, 20, game);
+		moneyText = new TextBox(10, 10, 100, 20, game, true);
 		moneyText.setText("Money: " + money);
 		moneyText.setVisible(true);
 
@@ -392,7 +391,7 @@ public class MerchantHandler {
 
 	public void displayMenu(String[] choices, int width, boolean canExit) {
 
-		m = new TextMenu(choices, width, this.width / 2, 10, game, canExit);
+		m = new TextMenu(choices, width, MENU_X, MENU_Y, game, canExit);
 
 		t.setVisible(false);
 		// Update KeyInput's properties to reflect dimensions/choices of
@@ -400,7 +399,7 @@ public class MerchantHandler {
 	}
 
 	public void draw(Graphics g) {
-		renderer.renderMerchant(g, this);
+		Renderer.renderMerchant(g, this);
 
 		if (m != null) {
 			m.draw(g);

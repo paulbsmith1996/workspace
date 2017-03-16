@@ -4,13 +4,11 @@ import misc.Game;
 
 public class CutSceneLoader {
 	
-	private Game game;
+	private static Game game;
 	
-	public CutSceneLoader(Game game) {
-		this.game = game;
-	}
+	public static void initCutSceneLoader(Game g) { game = g; } 
 	
-	public void loadScenes() {
+	public static void loadScenes() {
 		// Add in all the necessary cut scenes
 		CutSceneReference.firstScene = new CutScene1(game);
 	}

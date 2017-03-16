@@ -114,33 +114,34 @@ public class Inventory extends Vector<Pocket> {
     }
 
     /**
-     * Used to find the Item with the specified name within the Inventory
-     *
-     * @pre: Inventory contains an Item with name itemName
-     * @post: return item with name itemName
-     *
-     * @param String - holds the name of the Item requested by the user
-     */
-    public Item findItem (String itemName) {
+	 * Used to find the Item with the specified name within the Inventory
+	 *
+	 * @pre: Inventory contains an Item with name itemName
+	 * @post: return item with name itemName
+	 *
+	 * @param String
+	 *            - holds the name of the Item requested by the user
+	 */
+	public Item findItem(String itemName) {
 
-	String lowerCase = itemName.toLowerCase();
+		String lowerCase = itemName.toLowerCase();
 
-	// Find Pocket of correct item type
-        for (int i = 0; i < size(); i++) {
-            Pocket currPocket = elementAt(i);
-	    
-	    // Search within Pocket to find requested Item
-	    for (int n = 0; n < currPocket.size(); n++) {
-		Item currItem = currPocket.elementAt(n).getKey();
+		// Find Pocket of correct item type
+		for (int i = 0; i < size(); i++) {
+			Pocket currPocket = elementAt(i);
 
-		if (currItem.getName().toLowerCase().equals(lowerCase)) {
-		    return currItem;
+			// Search within Pocket to find requested Item
+			for (int n = 0; n < currPocket.size(); n++) {
+				Item currItem = currPocket.elementAt(n).getKey();
+
+				if (currItem.getName().toLowerCase().equals(lowerCase)) {
+					return currItem;
+				}
+			}
 		}
-	    }
-        }
 
-	// Item not found within the Inventory
-        System.out.println("No such item found");
+		// Item not found within the Inventory
+        //System.out.println("No such item found");
         return null;
 
     }

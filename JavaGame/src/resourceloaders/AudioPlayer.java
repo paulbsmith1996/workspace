@@ -13,6 +13,7 @@ public class AudioPlayer {
 	private static Map<String, Music> musicMap = new HashMap<String, Music>();
 	
 	private static Music playing = null;
+	public static Music wasPlaying = null;
 	private static boolean musicPlaying = false;
 	
 	private static boolean musicOn = true;
@@ -52,6 +53,38 @@ public class AudioPlayer {
 		soundMap.get(key).play();
 	}
 	
+	// Plays the Music with the name key for "length" ms
+	public static void playLimited(String key, int length) {
+		if (musicOn) {
+			Music toPlay = musicMap.get(key);
+			
+			if (!musicPlaying || toPlay != playing) {
+				toPlay.play();
+			}
+			
+			wasPlaying = playing;
+			playing = toPlay;
+			
+			int time = 0;
+			while(time < length) {
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				time++;
+			}
+			
+			musicPlaying = true;
+		}
+	}
+	
+	public static void playPrev() {
+		wasPlaying.loop();
+		
+		playing = wasPlaying;
+	}
+	
 	public static void playMusic(String key) {
 		if (musicOn) {
 			Music toPlay = musicMap.get(key);
@@ -60,6 +93,7 @@ public class AudioPlayer {
 				toPlay.loop();
 			}
 			
+			wasPlaying = playing;
 			playing = toPlay;
 			musicPlaying = true;
 		}
