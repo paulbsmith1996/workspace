@@ -13,10 +13,29 @@ public class ResourceLoader {
 			Images.blank = imageLoader.loadImage("blank.png");
 
 			Images.fence = imageLoader.loadImage("fence.png");
+			
+			Images.water 	  = imageLoader.loadImage("water.png"); 
+			Images.waterDirt1 = imageLoader.loadImage("waterDirt1.png");
+			Images.waterDirt2 = imageLoader.loadImage("waterDirt2.png");
+			Images.waterDirt3 = imageLoader.loadImage("waterDirt3.png");
+			Images.waterDirt4 = imageLoader.loadImage("waterDirt4.png");
+			
+			Images.stoneWall1 = imageLoader.loadImage("stoneWall1.png");
+			Images.stoneWall2 = imageLoader.loadImage("stoneWall2.png");
+			Images.stoneWall3 = imageLoader.loadImage("stoneWall3.png");
+			Images.stoneWall4 = imageLoader.loadImage("stoneWall4.png");
+			Images.stoneWall6 = imageLoader.loadImage("stoneWall6.png");
+			Images.stoneWall7 = imageLoader.loadImage("stoneWall7.png");
+			Images.stoneWall8 = imageLoader.loadImage("stoneWall2.png");
+			Images.stoneWall9 = imageLoader.loadImage("stoneWall9.png");
+			
+			Images.waterDirt6 = imageLoader.loadImage("waterDirt6.png");
+			
 			Images.player = imageLoader.loadImage("playerstill.png");
 			
 			Images.goblin = imageLoader.loadImage("goblinsprite.png");
 			Images.wisp = imageLoader.loadImage("wisp.png");
+			Images.falkon = imageLoader.loadImage("falkon.png");
 			
 			Images.goblinBoss = imageLoader.loadImage("goblinboss.png");
 			Images.tella = imageLoader.loadImage("tella.png");
@@ -81,6 +100,7 @@ public class ResourceLoader {
 		AudioPlayer.addMusic(Audio.BOSS_MUSIC, "bossbattle.ogg");
 		AudioPlayer.addMusic(Audio.DREAM_MUSIC, "dream.ogg");
 		AudioPlayer.addMusic(Audio.HEALING_SOUND, "healingsound.ogg");
+		AudioPlayer.addMusic(Audio.INTRO, "intro.ogg");
 	}
 
 }

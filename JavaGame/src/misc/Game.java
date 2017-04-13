@@ -1,5 +1,7 @@
 package misc;
 import java.applet.Applet;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Vector;
@@ -37,6 +39,9 @@ public class Game extends Applet implements Runnable {
 	public static final int WINDOW_WIDTH = 32 * 13, WINDOW_HEIGHT = 32 * 11;
 	public static final int FPS = 30; 
 	
+	private final int GAME_OVER_COUNT = 5;
+	private int count = 0;
+	
 	private Thread ticker;
 	private boolean running = false;
 	private KeyInput kInput;
@@ -55,8 +60,8 @@ public class Game extends Applet implements Runnable {
 	private GameState prevState;
 	
 	// Start of the game is at (9, 99)
-	private int xCoord = 11;
-	private int yCoord = 97;
+	private int xCoord = 9;
+	private int yCoord = 99;
 	
 	private final int START_X_COORD = 100, START_Y_COORD = 150;
 	
@@ -71,12 +76,12 @@ public class Game extends Applet implements Runnable {
 	
 	// int array holding stats for player
 	private final int LEVEL = 1;
-	private final int HP = 400 + 50 * LEVEL;
-	private final int MANA = 150 + 30 * LEVEL;
-	private final int AP = 40 + 20 * LEVEL;
-	private final int DP = 30 + 20 * LEVEL;
-	private final int MA = 30 + 20 * LEVEL;
-	private final int MD = 40 + 20 * LEVEL;
+	private final int HP = 		450 + 50 * (LEVEL - 1);
+	private final int MANA = 	180 + 30 * (LEVEL - 1);
+	private final int AP = 		60 	+ 20 * (LEVEL - 1);
+	private final int DP = 		50 	+ 20 * (LEVEL - 1);
+	private final int MA = 		50 	+ 20 * (LEVEL - 1);
+	private final int MD = 		60 	+ 20 * (LEVEL - 1);
 	
 	private int[] stats = { HP, MANA, AP, DP, LEVEL, MA, MD };
 
@@ -261,6 +266,13 @@ public class Game extends Applet implements Runnable {
 				handleCutScene();
 				
 				break;
+			case GAME_OVER:
+				AudioPlayer.stopPlaying();
+				if(count >= GAME_OVER_COUNT * (1000 / FPS)) {
+					gState = GameState.MENU;
+				}
+				count++;
+				break;
 			}
 			
 			repaint();
@@ -324,6 +336,7 @@ public class Game extends Applet implements Runnable {
 			player.setPos(playerX, playerY);
 			break;
 		case BWIN:
+			gState = GameState.GAME_OVER;
 			break;
 		case ONGOING:
 			break;
@@ -418,6 +431,9 @@ public class Game extends Applet implements Runnable {
 			break;
 		case CUTSCENE:
 			break;
+		case GAME_OVER:
+			paintGameOver(g);
+			break;
 		}
 		
 		for(TextBox t: texts) {
@@ -458,6 +474,18 @@ public class Game extends Applet implements Runnable {
 		if(gmh != null) {
 			gmh.draw(g);
 		}
+	}
+	
+	public void paintGameOver(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		g.setColor(Color.RED);
+		g.setFont(new Font("Times New Roman", Font.BOLD, 26));
+		String go = "GAME OVER";
+		g.drawString(go, 
+					 WINDOW_WIDTH / 2 - g.getFontMetrics().stringWidth(go) / 2, 
+					 WINDOW_HEIGHT / 2 + g.getFontMetrics().getHeight() / 2);
 	}
 	
 	public void start() {

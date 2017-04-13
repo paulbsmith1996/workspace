@@ -21,7 +21,6 @@ public class Utility extends Item {
     public int use() { 
 	if(usesLeft > 0) {
 	    usesLeft--;
-	    System.out.println("This " + getName() + " has " + getUsesLeft() + "/" + totalUses + " uses left");
 	    return 1;
 	} else {
 	    System.out.println("No more uses left for this item");

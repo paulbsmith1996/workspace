@@ -16,6 +16,9 @@ import Interfaces.CreatureInt;
  */
 public class Creature extends GameObject implements CreatureInt {
 
+	
+	private final int MIN_DAMAGE = 10;
+	
 	/**
 	 * Ints holding Creature's maximal HP and mana
 	 */
@@ -202,15 +205,15 @@ public class Creature extends GameObject implements CreatureInt {
 
 		// Probabilistic determination of attack and defense strength of each
 		// Creature
-		int attack = r.nextInt(getAP());
-		int defense = r.nextInt(other.getDP());
+		int attack = 3 * (3 * getAP() / 4 + r.nextInt(getAP() / 2));
+		int defense = 3 * (3 * getDP() / 4 + r.nextInt(getDP() / 2));
 
 		if (attack > defense) {
 			// Player's attack is higher
 			return attack - defense;
 		} else if (attack == defense) {
 			// Player's attack matches
-			damage(1);
+			damage(MIN_DAMAGE);
 			return 1;
 		}
 		

@@ -9,5 +9,6 @@ public enum GameState {
 	MERCHANT,
 	HOUSE,
 	CUTSCENE,
+	GAME_OVER,
 	
 }

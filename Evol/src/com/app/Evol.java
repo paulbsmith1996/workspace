@@ -18,7 +18,7 @@ public class Evol extends Applet implements Runnable {
 	private final int OFFSET = 50;
 	private final int FPS = 30;
 	
-	private final boolean GRAPHICS = true;
+	private final boolean GRAPHICS = false;
 	
 	/************************************/
 	// VARIABLES USED TO MAINTAIN GAME OBJECTS
@@ -39,11 +39,11 @@ public class Evol extends Applet implements Runnable {
 	/************************************/
 	
 	
-	private final int HERB_START_COUNT 	= 200;
+	private final int HERB_START_COUNT 	= 100;
 	private final int PRED_START_COUNT 	= 10;
 	private final int FOOD_START_COUNT 	= 700; 
-	private final int MAX_FOOD 			= 600;
-	private final boolean PREDS_ON		= false;
+	private final int MAX_FOOD 			= 700;
+	private final boolean PREDS_ON		= true;
 	
 	// Number of food sources generated per frame rendering * 1000
 	private final int FOOD_GEN_RATE = 2000;

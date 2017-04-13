@@ -33,7 +33,9 @@ public class Creature extends GameObject {
 	private final int DEFAULT_FP = 3000;
 	private final int DEFAULT_STARVING_RATE = 20;
 	private final int VISION_DISTANCE = 100;
-	private final int MUTATION_RATE = 10;
+	
+	// Default mutation rate is 10
+	private final int MUTATION_RATE = 3;
 
 	private int starvingRate = DEFAULT_STARVING_RATE;
 	private int divisionThreshold = DEFAULT_DIVISION_THRESHOLD; 
@@ -62,7 +64,7 @@ public class Creature extends GameObject {
 	private final int ON_FOOD = 8;
 	
 	// NUM_INSTRUCTIONS * INSTRUCTION_LENGTH <= 32
-	private final int NUM_INSTRUCTIONS = 10;
+	private final int NUM_INSTRUCTIONS = 15;
 	private final int INSTRUCTION_LENGTH = 2;
 	
 	private int fleeing;
@@ -611,7 +613,8 @@ public class Creature extends GameObject {
 	// Mutate one instruction in one gene
 	public void mutate() {
 
-		int mutIndex = 1 << rand.nextInt(32);
+		// Mutate an instruction randomly
+		int mutIndex = rand.nextInt(4) << rand.nextInt(32);
 
 		int geneNum = rand.nextInt(5);
 

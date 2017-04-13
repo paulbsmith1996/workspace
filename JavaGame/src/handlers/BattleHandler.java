@@ -87,6 +87,7 @@ public class BattleHandler {
 	private StatDisplay oppStat;
 	
 	private final long LOSS_TIME = 1300;
+	private final int SPELL_OFFSET = 2001;
     
 	/**
 	 * 
@@ -369,7 +370,7 @@ public class BattleHandler {
 			displayBMenu(choices, 3, true);
 
 			// Important to add Spells in correct order to SpellBook
-			int spellID = m.getSelected() + 2001;
+			int spellID = m.getSelected() + SPELL_OFFSET;
 			// Determine which spell needs to be cast
 			Spell toCast = null;
 
@@ -402,8 +403,8 @@ public class BattleHandler {
 				loseHealth(opponent, toCast.getRealDamage());
 				
 				// Inform user of change to opp's health
-				displayBText("Enemy took " + toCast.getRealDamage()
-						+ " damage!");
+				//displayBText("Enemy took " + toCast.getRealDamage()
+				//		+ " damage!");
 				
 				// Allow opp to attack player
 				success = true;

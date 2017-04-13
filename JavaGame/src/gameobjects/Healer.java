@@ -24,6 +24,7 @@ public class Healer extends Interactable {
 	
 	public void heal(Player p) {
 		p.setHP(p.getMaxHP());
+		p.setMana(p.getMaxMana());
 	}
 
 }

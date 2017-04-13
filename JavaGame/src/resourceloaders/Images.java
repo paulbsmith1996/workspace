@@ -8,10 +8,29 @@ public class Images {
  public static BufferedImage blank;
 
  public static BufferedImage fence;
+ 
+ public static BufferedImage water;
+ public static BufferedImage waterDirt1;
+ public static BufferedImage waterDirt2;
+ public static BufferedImage waterDirt3;
+ public static BufferedImage waterDirt4;
+ 
+ public static BufferedImage stoneWall1;
+ public static BufferedImage stoneWall2;
+ public static BufferedImage stoneWall3;
+ public static BufferedImage stoneWall4;
+ public static BufferedImage stoneWall6;
+ public static BufferedImage stoneWall7;
+ public static BufferedImage stoneWall8;
+ public static BufferedImage stoneWall9;
+ 
+ public static BufferedImage waterDirt6;
+ 
  public static BufferedImage player;
  
  public static BufferedImage goblin;
  public static BufferedImage wisp;
+ public static BufferedImage falkon;
  
  public static BufferedImage goblinBoss;
  public static BufferedImage tella;

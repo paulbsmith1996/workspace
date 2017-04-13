@@ -13,4 +13,5 @@ public class Audio {
 	public static final String BOSS_MUSIC = "boss";
 	public static final String DREAM_MUSIC = "dream";
 	public static final String HEALING_SOUND = "heal";
+	public static final String INTRO = "intro";
 }

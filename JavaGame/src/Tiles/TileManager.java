@@ -51,6 +51,11 @@ public class TileManager {
 		worldTiles.add(new Tile8_95());
 		worldTiles.add(new Tile8_96());
 		worldTiles.add(new Tile7_96());
+		worldTiles.add(new Tile7_95());
+		worldTiles.add(new Tile7_94());
+		worldTiles.add(new Tile7_93());
+		worldTiles.add(new Tile7_92());
+		worldTiles.add(new Tile7_91());
 		
 		makeWorld();
 	}

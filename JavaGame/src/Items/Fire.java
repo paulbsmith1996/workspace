@@ -24,7 +24,7 @@ public class Fire extends Spell {
 		this.type = "Flame";
 		this.manaCost = 30;
 		this.cost = 70;
-		this.damage = 10;
+		this.damage = 100;
 		this.ID = ItemReference.FIRE;
 	}
 

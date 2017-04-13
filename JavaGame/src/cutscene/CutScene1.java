@@ -14,8 +14,10 @@ import components.TextBox;
 
 public class CutScene1 extends CutScene {
 	
-	private final int TEXT_X = 0, TEXT_Y = Game.HEIGHT - 31;
-	private final int TEXT_WIDTH = Game.WIDTH, TEXT_HEIGHT = 30; 
+	private final int TEXT_X = 0, TEXT_Y = Game.WINDOW_HEIGHT - 50;
+	private final int TEXT_WIDTH = Game.WINDOW_WIDTH, TEXT_HEIGHT = 50;
+	
+	private final int NUM_SECS_PER_TEXT = 4;
 	
 	public CutScene1(Game game) {
 		super(game);
@@ -72,7 +74,7 @@ public class CutScene1 extends CutScene {
 			game.sleep(60);
 			tBox.setText(line);
 			tBox.draw(g);
-			game.sleep(6 * 1000);
+			game.sleep(NUM_SECS_PER_TEXT * 1000);
 		}
 		
 		setPlayed(true);

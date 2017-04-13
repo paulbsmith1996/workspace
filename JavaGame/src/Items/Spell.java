@@ -38,6 +38,10 @@ public class Spell extends Item {
 	 * New Random object for probability
 	 */
 	protected Random r;
+	
+	private final int MARGIN_MULTIPLIER = 4;
+	private final int MARGIN_OF_ERROR = 40;
+	private final int MIN_DAMAGE = 10;
 
 	/**
 	 * Initialize type and owner
@@ -95,17 +99,19 @@ public class Spell extends Item {
 
 			r = new Random();
 			// Calculate random number less than stated attack/defense
-			int true_attack = r.nextInt(attack);
-			int true_defense = r.nextInt(defense);
+			int true_attack = attack - MARGIN_OF_ERROR / 2 + r.nextInt(MARGIN_OF_ERROR);
+			int true_damage = 3 * getDamage() / 4 + r.nextInt(getDamage() / 2);
+			int true_defense = defense - MARGIN_OF_ERROR / 2 + r.nextInt(MARGIN_OF_ERROR);
 			
 			// Deal calculated damage to target
 			if (true_attack > true_defense) {
 				// Enemy is hit by Spell
-				realDamage = (true_attack - true_defense) * getDamage();
+				realDamage = true_attack - true_defense + true_damage;
 				return 1;
 			} else {
 				// Enemy was not affected by Spell
-				return 2;
+				realDamage = MIN_DAMAGE;
+				return 1;
 			}
 
 		} else {

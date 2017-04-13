@@ -11,6 +11,7 @@ public class CutSceneLoader {
 	public static void loadScenes() {
 		// Add in all the necessary cut scenes
 		CutSceneReference.firstScene = new CutScene1(game);
+		CutSceneReference.introScene = new IntroCutScene(game);
 	}
 
 }

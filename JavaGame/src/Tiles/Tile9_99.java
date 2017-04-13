@@ -1,8 +1,15 @@
 package Tiles;
 
+import cutscene.CutSceneReference;
 import gameobjects.Dirt;
 import gameobjects.Fence;
 import gameobjects.StoneTablet;
+import gameobjects.Water;
+import gameobjects.WaterDirt1;
+import gameobjects.WaterDirt2;
+import gameobjects.WaterDirt3;
+import gameobjects.WaterDirt4;
+import gameobjects.WaterDirt6;
 
 public class Tile9_99 extends Tile {
 
@@ -12,12 +19,21 @@ public class Tile9_99 extends Tile {
 	
 	@Override
 	public void create() {
+		
+		//this.setCutScene(CutSceneReference.introScene);
 		setArea(new Dirt(), 0, 0, numCols() - 1, numRows() - 1);
 		
-		setColumn(new Fence(), 0);
-		setColumn(new Fence(), numCols() - 1);
+		setArea(new WaterDirt4(), 0, 0, 0, 3);
+		setArea(new WaterDirt6(), numCols() - 1, 0, numCols() - 1, 3);
 		
-		setRow(new Fence(), 0);
+		setArea(new Water(), 0, 0, numCols() - 1, 1);
+		setRow(new WaterDirt2(), 2);
+		
+		setObject(new WaterDirt1(), 0, 2);
+		setObject(new WaterDirt3(), numCols() - 1, 2);
+		
+		setArea(new Fence(), 0, 4, 0, numRows() - 1);
+		setArea(new Fence(), numCols() - 1, 4, numCols() - 1, numRows() - 1);
 		
 		addBushyTree(numCols() - 4, numRows() - 5);
 		addBushyTree(2, numRows() - 5);
@@ -29,6 +45,6 @@ public class Tile9_99 extends Tile {
 				"Sorry it has come to this"};
 		introTab.setDialogue(text);
 		
-		setObject(introTab, numCols() / 2, 1);
+		setObject(introTab, numCols() / 2, 3);
 	}
 }

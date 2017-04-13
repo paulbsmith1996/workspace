@@ -11,10 +11,10 @@ public class Goblin extends NPC {
 		this.maxHP = 50 + 40 * level;
 		this.maxMana = 100 + 20 * level;
 		this.mana = 100 + 20 * level;
-		this.ap = 30 + 10 * level;
-		this.dp = 20 + 10 * level;
-		this.ma = 20 + 10 * level;
-		this.md = 30 + 10 * level;
+		this.ap = 30 + 15 * level;
+		this.dp = 20 + 15 * level;
+		this.ma = 20 + 15 * level;
+		this.md = 30 + 15 * level;
 	}
 	
 }

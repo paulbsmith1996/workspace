@@ -18,6 +18,8 @@ public class LinkageApp extends Applet implements Runnable {
 
 	
 	
+	private final String FILENAME = "silvermanstar";
+	
 	/************ Variables used for init/running applet ******************************/
 	
 	
@@ -67,7 +69,7 @@ public class LinkageApp extends Applet implements Runnable {
 
 		trail = new Vector<ColoredRect>();
 		
-		ScriptReader fileReader = new ScriptReader("parab[-1,3]");
+		ScriptReader fileReader = new ScriptReader(FILENAME);
 		
 		try {
 			fileReader.scan();

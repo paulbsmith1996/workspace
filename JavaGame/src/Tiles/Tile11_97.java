@@ -1,5 +1,6 @@
 package Tiles;
 
+import gameobjects.Dirt;
 import gameobjects.Fence;
 import gameobjects.Grass;
 import gameobjects.MVillager;
@@ -13,7 +14,8 @@ public class Tile11_97 extends Tile{
 	
 	@Override
 	public void create() {
-		setArea(new VillageFloor(), 0, 0, numCols(), numRows());
+		setArea(new Grass(), 0, 0, numCols(), numRows());
+		setRow(new VillageFloor(), numRows() - 1);
 		
 		setObject(new Grass(), 0, numRows() - 1);
 		setObject(new Fence(), 0, numRows() - 1);
@@ -23,6 +25,10 @@ public class Tile11_97 extends Tile{
 		
 		setRow(new Grass() ,0);
 		setRow(new Fence(), 0);
+		
+		setArea(new VillageFloor(), 6, 2, 6, numRows() - 1);
+		setArea(new VillageFloor(), 2, 7, 8, 7);
+		setArea(new VillageFloor(), 9, 5, 9, 7);
 		
 		addMerchant(5, 2);
 		

@@ -86,9 +86,22 @@ public class StatBar {
 		return amountLeft;
 	}
 	
+	public int max() {
+		int max = 0;
+		switch(stat) {
+		case HEALTH:
+			max = c.getMaxHP();
+			break;
+		case MANA:
+			max = c.getMaxMana();
+			break;
+		}	
+		return max;
+	}
+	
 	public void draw(Graphics g) {
 		
-		proportion = (double)amountLeft() / (double)max;
+		proportion = (double)amountLeft() / (double)max();
 		
 		g.setColor(color);
 		if(pos == 0) {
