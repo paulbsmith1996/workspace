@@ -40,6 +40,12 @@ public class TextMenu {
 	
 	public void setOptions(String[] options) { this.choices = options; }
 	public String[] getOptions() { return choices; }
+	
+	public String getSelectedOptionName() {
+		int selectedOp = getSelected();
+		return choices[selectedOp];
+	}
+	
 	public int getSelected() { 
 		for(int x = 0; x < kInput.numOps(); x++) {
 			if(kInput.getMenuOptions()[x]) {
@@ -48,6 +54,7 @@ public class TextMenu {
 		}
 		return selected;
 	}
+	
 	public void setSelected(int val) {
 		for(int x = 0; x < kInput.numOps(); x++) {
 			kInput.getMenuOptions()[x] = false;

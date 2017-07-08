@@ -1,4 +1,4 @@
-package Items;
+package spell;
 // Paul Baird-Smith 2015
 
 import gameobjects.Creature;
@@ -23,14 +23,13 @@ public class Spark extends Spell {
 	/**
 	 * Constructor defines Spell and Item variables for Spark
 	 */
-	public Spark(Creature player) {
-		super(player);
+	public Spark() {
 		this.name = "Spark";
 		this.type = "Lightning";
 		this.manaCost = 30;
 		this.cost = 100;
 		this.damage = 10;
-		this.ID = ItemReference.SPARK;
+		this.spellID = SpellReference.SPARK;
 	}
 
 	/**

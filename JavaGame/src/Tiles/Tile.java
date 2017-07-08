@@ -1,5 +1,9 @@
 package Tiles;
 
+import java.awt.Graphics;
+import java.util.Vector;
+
+import cutscene.CutScene;
 import gameobjects.BushyTreeLL;
 import gameobjects.BushyTreeLR;
 import gameobjects.BushyTreeTL;
@@ -14,12 +18,8 @@ import gameobjects.MerchantLeft;
 import gameobjects.MerchantRight;
 import gameobjects.NPC;
 import gameobjects.Obstacle;
-
-import java.awt.Graphics;
-import java.util.Vector;
-
 import misc.Controller;
-import cutscene.CutScene;
+import misc.Game;
 
 public class Tile {
 
@@ -33,7 +33,24 @@ public class Tile {
 	private Vector<Creature> mobs;
 	private CutScene cs;
 	
+	private Game game;
+	
 	public Tile(int xCoord, int yCoord) {
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+		this.c = new Controller();
+		
+		this.cs = null;
+		
+		tileObjects = new GameObject[NUMCOLS][NUMROWS];
+		backGround = new GameObject[NUMCOLS][NUMROWS];
+		
+		mobs = new Vector<Creature>();
+		create();
+	}
+	
+	public Tile(int xCoord, int yCoord, Game game) {
+		this.game = game;
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.c = new Controller();
@@ -55,6 +72,8 @@ public class Tile {
 		mobs = new Vector<Creature>();
 		create();
 	}
+	
+	public Game getGame() { return this.game; }
 	
 	public int getXCoord() { return this.xCoord; }
 	public int getYCoord() { return this.yCoord; }

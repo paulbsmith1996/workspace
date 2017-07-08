@@ -1,22 +1,18 @@
 package handlers;
-import gameobjects.Healer;
-import gameobjects.Interactable;
-import gameobjects.Player;
-
 import java.awt.Graphics;
 
-import misc.Controller;
-import misc.Game;
-import misc.KeyInput;
-import misc.Renderer;
 import Enums.GameState;
 import Enums.HouseType;
 import Tiles.HealerTile;
 import Tiles.HouseT0;
 import Tiles.HouseTile;
-
-import components.TextBox;
-import cutscene.HealingScene;
+import Tiles.MerchantTile;
+import Tiles.WizardTile;
+import gameobjects.Player;
+import misc.Controller;
+import misc.Game;
+import misc.KeyInput;
+import misc.Renderer;
 
 
 public class HouseHandler {
@@ -33,6 +29,7 @@ public class HouseHandler {
 	private boolean newHouse = true;
 	
 	public HouseHandler(Game game, Player player, int tileX, int tileY) {
+		
 		this.game = game;
 		this.player = player;
 		this.c = new Controller();
@@ -47,8 +44,12 @@ public class HouseHandler {
 		
 		if(xCoord == 11 && yCoord == 97 && tileX < 6) {
 			curHouse = HouseType.FIRST_HOUSE;
-		} else if(xCoord == 11 && yCoord == 97) {
+		} else if(xCoord == 11 && yCoord == 97 && tileX > 8) {
 			curHouse = HouseType.HEALER;
+		} else if(xCoord == 11 && yCoord == 97 && tileX >= 6 && tileX <= 8) {
+			curHouse = HouseType.MERCHANT_1;
+		} else if(xCoord == 7 && yCoord == 90) {
+			curHouse = HouseType.WIZARD_1;
 		}
 		
 		switch (curHouse) {
@@ -58,13 +59,18 @@ public class HouseHandler {
 		case HEALER:
 			environment = new HealerTile();
 			break;
+		case MERCHANT_1:
+			environment = new MerchantTile(game);
+			break;
+		case WIZARD_1:
+			environment = new WizardTile(game);
 		}
 		
 		c = environment.getController();
 		c.add(player);
 	}
 	
-	public HouseTile houseBakground() { return this.environment; }
+	public HouseTile houseBackground() { return this.environment; }
 	
 	public boolean isNewHouse() { return this.newHouse; }
 	

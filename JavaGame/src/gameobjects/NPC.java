@@ -78,6 +78,8 @@ public class NPC extends Creature {
 		super(x,y,velX,velY,image);
 	}
 	
+	// Move toward player if close enough to see. Otherwise, move in the current
+	// direction.
 	public void move(Rectangle bounds, Player player) {
 		if (player.getDistance(this) < VISION) {
 			int x = getX();

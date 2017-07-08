@@ -1,4 +1,4 @@
-package Items;
+package spell;
 
 // Paul Baird-Smith 2015
 
@@ -15,24 +15,22 @@ import java.util.Random;
 public class Ice extends Spell {
 
 	Random r;
-
-	/**
-	 * Defines Craeture that owns the Spell
-	 */
-	Creature owner;
+	
+	private String description = "An introductory frost spell that "
+			+ "slightly lowers the target's physical attack points.";
 
 	/**
 	 * Define Ice variables
 	 */
-	public Ice(Creature player) {
-		super(player);
-		owner = player;
+	public Ice() {
 		this.name = "Ice";
 		this.type = "Frost";
 		this.manaCost = 30;
 		this.cost = 100;
 		this.damage = 10;
-		this.ID = ItemReference.ICE;
+		this.spellID = SpellReference.ICE;
+		
+		this.setDescription(description);
 	}
 
 	/**
@@ -49,16 +47,15 @@ public class Ice extends Spell {
 		r = new Random();
 
 		// Determine strength of Spell
-		int power = 0;
-		if (owner.getMA() >= 3) {
-			power = r.nextInt(owner.getMA() * 10 / 3);
-		}
+		// int power = 0;
+		// if (owner.getMA() >= 3) {
+		// power = r.nextInt(owner.getMA() * 10 / 3);
+		// }
 
-		// Reduce castee's AP by power
-		if (otherAP - power >= 1) {
-			otherAP -= power;
-			other.setAP(otherAP);
-		}
+		int power = otherAP / 8 + r.nextInt(otherAP / 4);
+
+		otherAP -= power;
+		other.setAP(otherAP);
 
 		return ("Enemy's AP fell by " + power + "!");
 	}

@@ -27,5 +27,7 @@ public class Tile10_96 extends Tile {
 		
 		setObject(new IronRock(), numCols() / 2 - 3, numRows() / 2 - 2);
 		setObject(new IronRock(), numCols() / 2 + 3, numRows() / 2 - 2);
+		
+		setArea(new MineFloor(), 0, 3, 0, numRows() - 4);
 	}
 }

@@ -8,15 +8,14 @@ import java.util.Vector;
 
 import Enums.BattleState;
 import Enums.GameState;
-import Items.Fire;
 import Items.HealthPotion;
-import Items.Ice;
 import Items.ManaPotion;
-import Items.SpellBook;
 import Items.WoodSword;
 import Tiles.Tile;
 import Tiles.TileManager;
+import components.NumberSelector;
 import components.TextBox;
+import components.TextMenu;
 import cutscene.CutSceneLoader;
 import gameobjects.NPC;
 import gameobjects.Player;
@@ -31,6 +30,10 @@ import inventories.Stocks;
 import resourceloaders.Audio;
 import resourceloaders.AudioPlayer;
 import resourceloaders.ResourceLoader;
+import spell.Fire;
+import spell.Ice;
+import spell.SpellBook;
+import spell.SpellMap;
 
 public class Game extends Applet implements Runnable {
 
@@ -38,6 +41,8 @@ public class Game extends Applet implements Runnable {
 	
 	public static final int WINDOW_WIDTH = 32 * 13, WINDOW_HEIGHT = 32 * 11;
 	public static final int FPS = 30; 
+	
+	private final int T_MENU_X = 45, T_MENU_Y = 75;
 	
 	private final int GAME_OVER_COUNT = 5;
 	private int count = 0;
@@ -60,8 +65,8 @@ public class Game extends Applet implements Runnable {
 	private GameState prevState;
 	
 	// Start of the game is at (9, 99)
-	private int xCoord = 9;
-	private int yCoord = 99;
+	private int xCoord = 11;
+	private int yCoord = 97;
 	
 	private final int START_X_COORD = 100, START_Y_COORD = 150;
 	
@@ -76,7 +81,7 @@ public class Game extends Applet implements Runnable {
 	
 	// int array holding stats for player
 	private final int LEVEL = 1;
-	private final int HP = 		450 + 50 * (LEVEL - 1);
+	private final int HP = 		400 + 50 * (LEVEL - 1);
 	private final int MANA = 	180 + 30 * (LEVEL - 1);
 	private final int AP = 		60 	+ 20 * (LEVEL - 1);
 	private final int DP = 		50 	+ 20 * (LEVEL - 1);
@@ -90,11 +95,16 @@ public class Game extends Applet implements Runnable {
 
 	// Create player. And stock player's inventory
 	private Player player;
-	private SpellBook sb = new SpellBook(player);
+	private SpellBook sb;
+	
+	private SpellMap sMap;
 	
 	/************** Variables for Menu ****************/
 	
 	private MainMenu mainM;
+	private TextBox moneyText, infoText;
+	private TextMenu tMenu;
+	private NumberSelector numSelect;
 	
 	/************** Variables for Game Case Handlers ********/
 	
@@ -116,6 +126,16 @@ public class Game extends Applet implements Runnable {
 	
 	public KeyInput getInterpreter() { return this.kInput; }
 	public Player getPlayer() { return this.player; }
+	public SpellMap getSpellMap() { return this.sMap; }
+	
+	public TextMenu getTextMenu() { return this.tMenu; }
+	public NumberSelector getNumSelect() { return this.numSelect; }
+	public void newNumSelect() { 
+		this.numSelect = new NumberSelector(275, 60);
+		this.numSelect.setVisible(false);
+	}
+	public TextBox getMoneyText() { return this.moneyText; }
+	public TextBox getInfoText() { return this.infoText; }
 	
 	public Controller getController() { return this.c; }
 	public void setController(Controller cont) { this.c = cont; }
@@ -170,6 +190,7 @@ public class Game extends Applet implements Runnable {
 		
 		TileManager.initTileManager();
 		Renderer.initRenderer(c);
+	
 	}
 	
 	// Initializes all settings of the app, including whether music is playing or not
@@ -187,6 +208,9 @@ public class Game extends Applet implements Runnable {
 		this.bottomBounds = new Rectangle(0, WINDOW_HEIGHT - 3, WINDOW_WIDTH, 3);
 		this.leftBounds = new Rectangle(0, 0, 3, WINDOW_HEIGHT);
 		this.rightBounds = new Rectangle(WINDOW_WIDTH - 3, 0, 3, WINDOW_HEIGHT);
+		
+		numSelect = new NumberSelector(275, 60);
+		numSelect.setVisible(false);
 	}
 	
 	// Initializes all the default settings for the player and adds it to the game's controller
@@ -198,11 +222,14 @@ public class Game extends Applet implements Runnable {
 		i.addItem(new WoodSword());
 		//i.addItem(new Pickaxe());
 		
-		//player.inventory.addMoney(10000);
+		//player.getInventory().addMoney(10000);
 		
-		sb.add(new Fire(player));
-		sb.add(new Ice(player));
+		sb = new SpellBook(player);
+		//sb.add(new Fire());
+		//sb.add(new Ice());
 		player.setSpellBook(sb);
+		
+		sMap = new SpellMap(player);
 		
 		
 		c.add(player);
@@ -222,6 +249,9 @@ public class Game extends Applet implements Runnable {
 	
 	public void run() {
 		while (running) {
+			
+			this.requestFocus();
+			
 			if(gState != GameState.GAME_MENU && gState != GameState.CUTSCENE) {
 				prevState = gState;
 			}
@@ -249,11 +279,6 @@ public class Game extends Applet implements Runnable {
 			case GAME_MENU:
 				
 				handleMain();
-				
-				break;
-			case MERCHANT:
-				
-				handleMerchant();
 				
 				break;
 			case HOUSE:
@@ -393,41 +418,24 @@ public class Game extends Applet implements Runnable {
 	
 	public void paint(Graphics g) {
 		switch(gState) {
-		case MENU:
-			
+		case MENU:		
 			paintMenu(g);
-			
 			break;
 		case WANDER:
-			
 			Renderer.renderGame(g, xCoord, yCoord);
-			
 			break;
 		case BATTLE:
-			
 			if(bh != null) {
 				bh.draw(g);
 			}
-			
 			break;
 		case GAME_MENU:
-			
 			paintMain(g);
-			
-			break;
-		case MERCHANT:		
-			
-			if(merch != null) {
-				merch.draw(g);
-			}
-			
 			break;
 		case HOUSE:
-			
 			if(hh != null) {
 				hh.draw(g);
 			}
-			
 			break;
 		case CUTSCENE:
 			break;
@@ -438,6 +446,22 @@ public class Game extends Applet implements Runnable {
 		
 		for(TextBox t: texts) {
 			t.draw(g);
+		}
+		
+		if (tMenu != null) {
+			tMenu.draw(g);
+		}
+
+		if (infoText != null) {
+			infoText.draw(g);
+		}
+
+		if (moneyText != null) {
+			moneyText.draw(g);
+		}
+		
+		if(numSelect != null) {
+			numSelect.draw(g);
 		}
 	}
 	
@@ -463,9 +487,6 @@ public class Game extends Applet implements Runnable {
 		case WANDER:
 			Renderer.renderGame(g, xCoord, yCoord);
 			break;
-		case MERCHANT:
-			Renderer.renderMerchant(g, merch);
-			break;
 		case HOUSE:
 			Renderer.renderHouse(g, hh);
 			break;
@@ -488,6 +509,44 @@ public class Game extends Applet implements Runnable {
 					 WINDOW_HEIGHT / 2 + g.getFontMetrics().getHeight() / 2);
 	}
 	
+/*************** Handle Graphics here **************************/
+	
+	
+	public void displayMoney() {
+		String money = Integer.toString(player.getInventory().getMoney());
+		moneyText = new TextBox(10, 10, 200, 30, this, true);
+		moneyText.setText("Money: " + money);
+		moneyText.setVisible(true);
+
+		repaint();
+	}
+
+	public void displayText(String text) {
+		infoText = new TextBox(0, height - 30, width, 30, this, true);
+		infoText.setText(text);
+		
+		if (tMenu != null) {
+			tMenu.setVisible(false);
+		}
+		
+		infoText.setVisible(true);
+		repaint();
+		waitInput();
+	}
+
+	public void displayMenu(String[] choices, int width, boolean canExit) {
+
+		tMenu = new TextMenu(choices, width, T_MENU_X, T_MENU_Y, this, canExit);
+		tMenu.setVisible(true);
+
+		if(infoText != null) {
+			infoText.setVisible(false);
+		}
+		
+		// Update KeyInput's properties to reflect dimensions/choices of
+		tMenu.select();
+	}
+	
 	public void start() {
 		// Check for either no Thread or a dead Thread
 		if (ticker == null || !ticker.isAlive()) {
@@ -497,6 +556,7 @@ public class Game extends Applet implements Runnable {
 			ticker.setPriority(Thread.MIN_PRIORITY + 1);
 			ticker.start();
 		}
+
 	}
 	
 	public void stop() {

@@ -34,6 +34,7 @@ public class TileManager {
 		
 		worldTiles.add(new Tile10_97());
 		worldTiles.add(new Tile10_96());
+		worldTiles.add(new Tile9_96());
 		
 		worldTiles.add(new Tile12_97());
 		worldTiles.add(new Tile12_96());
@@ -56,6 +57,9 @@ public class TileManager {
 		worldTiles.add(new Tile7_93());
 		worldTiles.add(new Tile7_92());
 		worldTiles.add(new Tile7_91());
+		
+		worldTiles.add(new Tile7_90());
+		worldTiles.add(new Tile6_90());
 		
 		makeWorld();
 	}

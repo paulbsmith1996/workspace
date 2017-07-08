@@ -14,7 +14,7 @@ public class ItemReference {
     public static final int WEAPON = 0;
     public static final int ARMOR = 1;
     public static final int POTION = 2;
-    public static final int SPELL = 3;
+    //public static final int SPELL = 3;
     public static final int UTILITY = 4;
     public static final int ORE = 5;
     
@@ -54,12 +54,14 @@ public class ItemReference {
     public static final int MANAPOTION = 1002;
 
 
+    /*
     // Spell IDs
     public static final int FIRE = 2001;
     public static final int ICE = 2002;
     public static final int SPARK = 2003;
     public static final int RESTORE = 2004;
     public static final int SHARPEN = 2005;
+     */
 
     // Utilities IDs
     public static final int PICKAXE = 9001;

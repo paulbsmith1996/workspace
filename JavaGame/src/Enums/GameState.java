@@ -6,7 +6,6 @@ public enum GameState {
 	BATTLE,
 	WANDER,
 	GAME_MENU,
-	MERCHANT,
 	HOUSE,
 	CUTSCENE,
 	GAME_OVER,

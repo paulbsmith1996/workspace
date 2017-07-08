@@ -17,8 +17,7 @@ import com.read.ScriptReader;
 public class LinkageApp extends Applet implements Runnable {
 
 	
-	
-	private final String FILENAME = "silvermanstar";
+	private final String FILENAME = "defense3";
 	
 	/************ Variables used for init/running applet ******************************/
 	

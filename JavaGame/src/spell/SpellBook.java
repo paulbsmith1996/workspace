@@ -1,11 +1,9 @@
-package Items;
+package spell;
 // Paul Baird-Smith 2015
-
-import gameobjects.Creature;
 
 import java.util.Vector;
 
-import Items.Spell;
+import gameobjects.Creature;
 
 /**
  *
@@ -38,7 +36,7 @@ public class SpellBook extends Vector<Spell> {
 	 *            - Target of the Spell
 	 */
 	public int spellCast(Spell spell, Creature other) {
-		return spell.cast(other);
+		return spell.cast(owner, other);
 	}
 
 	/**
@@ -87,10 +85,12 @@ public class SpellBook extends Vector<Spell> {
 		return spells.toString();
 	}
 	
-	public Vector<String> getSpells() {
-		Vector<String> allSpells = new Vector<String>();
+	public String[] getSpells() {
+		String[] allSpells = new String[size()];
+		int i = 0;
 		for(Spell s: this) {
-			allSpells.add(s.getName());
+			allSpells[i] = s.name;
+			i++;
 		}
 		
 		return allSpells;

@@ -18,7 +18,7 @@ public class Evol extends Applet implements Runnable {
 	private final int OFFSET = 50;
 	private final int FPS = 30;
 	
-	private final boolean GRAPHICS = false;
+	private final boolean GRAPHICS = true;
 	
 	/************************************/
 	// VARIABLES USED TO MAINTAIN GAME OBJECTS

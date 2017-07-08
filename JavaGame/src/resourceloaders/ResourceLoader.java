@@ -22,6 +22,8 @@ public class ResourceLoader {
 			
 			Images.stoneWall1 = imageLoader.loadImage("stoneWall1.png");
 			Images.stoneWall2 = imageLoader.loadImage("stoneWall2.png");
+			Images.stoneWall2L = imageLoader.loadImage("stoneWall2L.png");
+			Images.stoneWall2R = imageLoader.loadImage("stoneWall2R.png");
 			Images.stoneWall3 = imageLoader.loadImage("stoneWall3.png");
 			Images.stoneWall4 = imageLoader.loadImage("stoneWall4.png");
 			Images.stoneWall6 = imageLoader.loadImage("stoneWall6.png");
@@ -80,6 +82,8 @@ public class ResourceLoader {
 			Images.houseFloor = imageLoader.loadImage("housefloor.png");
 			Images.houseLeft = imageLoader.loadImage("houseleft.png");
 			Images.houseRight = imageLoader.loadImage("houseright.png");
+			
+			Images.wizardDoor = imageLoader.loadImage("wizarddoor.png");
 
 			Images.maleVillager = imageLoader.loadImage("malevillager.png");
 

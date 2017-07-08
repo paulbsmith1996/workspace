@@ -100,7 +100,7 @@ public class Renderer {
 	}
 	
 	public static void renderHouse(Graphics g, HouseHandler hh) {
-		t = hh.houseBakground();
+		t = hh.houseBackground();
 		
 		c = t.getController();
 		

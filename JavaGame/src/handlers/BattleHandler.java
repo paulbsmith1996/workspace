@@ -6,12 +6,9 @@ import java.util.Vector;
 
 import Enums.BattleState;
 import Enums.GameState;
-import Items.Fire;
 import Items.HealthPotion;
-import Items.Ice;
 import Items.ItemReference;
 import Items.ManaPotion;
-import Items.Spell;
 import components.StatDisplay;
 import components.TextBox;
 import components.TextMenu;
@@ -25,6 +22,10 @@ import misc.KeyInput;
 import misc.Renderer;
 import resourceloaders.Audio;
 import resourceloaders.AudioPlayer;
+import spell.Fire;
+import spell.Ice;
+import spell.Spell;
+import spell.SpellReference;
 
 
 public class BattleHandler {
@@ -358,28 +359,22 @@ public class BattleHandler {
 
 		if (player.getBook().size() > 0) {
 			// Player has at least one Spell
-			Vector<String> spells = player.getBook().getSpells();
-			
-			// Populate choices array with all possible Spells
-			String[] choices = new String[spells.size()];
-			for (int x = 0; x < choices.length; x++) {
-				choices[x] = spells.elementAt(x);
-			}
+			String[] choices = player.getBook().getSpells();
 
 			// Allow user to select desired Spell
 			displayBMenu(choices, 3, true);
 
 			// Important to add Spells in correct order to SpellBook
-			int spellID = m.getSelected() + SPELL_OFFSET;
+			int spellID = m.getSelected() + 1;
 			// Determine which spell needs to be cast
 			Spell toCast = null;
-
-			if (spellID == ItemReference.FIRE) {
+			
+			if (spellID == SpellReference.FIRE) {
 				// Selected Spell is Fire
-				toCast = new Fire(player);
-			} else if (spellID == ItemReference.ICE) {
+				toCast = new Fire();
+			} else if (spellID == SpellReference.ICE) {
 				// Selected Spell is Ice
-				toCast = new Ice(player);
+				toCast = new Ice();
 			}
 
 			// Determine if the spell could even be cast

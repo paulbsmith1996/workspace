@@ -17,6 +17,8 @@ public class Images {
  
  public static BufferedImage stoneWall1;
  public static BufferedImage stoneWall2;
+ public static BufferedImage stoneWall2L;
+ public static BufferedImage stoneWall2R;
  public static BufferedImage stoneWall3;
  public static BufferedImage stoneWall4;
  public static BufferedImage stoneWall6;
@@ -63,6 +65,7 @@ public class Images {
  
  public static BufferedImage merchant;
  
+ public static BufferedImage wizardDoor;
  
  public static BufferedImage counterLeft;
  public static BufferedImage counterRight;

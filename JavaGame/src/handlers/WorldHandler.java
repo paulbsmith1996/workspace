@@ -2,20 +2,16 @@ package handlers;
 import java.awt.Rectangle;
 
 import Enums.GameState;
-import Items.ItemReference;
 import Tiles.TileManager;
 import components.TextBox;
-import cutscene.HealingScene;
 import gameobjects.Boss;
 import gameobjects.Creature;
 import gameobjects.GameObject;
-import gameobjects.Healer;
 import gameobjects.HouseDoor;
-import gameobjects.Interactable;
 import gameobjects.MerchantCenter;
 import gameobjects.NPC;
 import gameobjects.Player;
-import gameobjects.RawOre;
+import gameobjects.WizardDoor;
 import misc.Controller;
 import misc.Game;
 import misc.KeyInput;
@@ -25,7 +21,6 @@ public class WorldHandler {
 
 	private Game game;
 	private Controller c;
-	//private Renderer renderer;
 	private Player player;
 	private Rectangle appBounds;
 	private int entranceX;
@@ -117,12 +112,18 @@ public class WorldHandler {
 		
 		if(obstacle instanceof MerchantCenter
 				&& player.getSide() == Controller.TOP) {
-			game.setState(GameState.MERCHANT);
+			game.setState(GameState.HOUSE);
 			
 			player.setPos(appBounds.width / 2 - player.getWidth() / 2, 
 					appBounds.height - player.getHeight() * 3 / 2);
 			return 0; 
 		} else if(obstacle instanceof HouseDoor 
+				&& player.getSide() == Controller.TOP) {
+			game.setState(GameState.HOUSE);
+			player.setPos(appBounds.width / 2 - player.getWidth() / 2, 
+					appBounds.height - player.getHeight() * 3 / 2);
+			return 0;
+		} else if(obstacle instanceof WizardDoor
 				&& player.getSide() == Controller.TOP) {
 			game.setState(GameState.HOUSE);
 			player.setPos(appBounds.width / 2 - player.getWidth() / 2, 

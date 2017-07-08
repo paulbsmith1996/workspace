@@ -1,11 +1,9 @@
 package misc;
-import gameobjects.Player;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import Enums.GameState;
-import Enums.MerchantState;
+import gameobjects.Player;
 
 public class KeyInput extends KeyAdapter {
 
@@ -19,8 +17,6 @@ public class KeyInput extends KeyAdapter {
 	
 	private boolean pause;
 	private boolean interacting;
-	
-	private MerchantState merchState;
 	
 	private int mainMovement;
 	
@@ -39,15 +35,10 @@ public class KeyInput extends KeyAdapter {
 		menuWidth = 2;
 		
 		pause = false;
-		
-		merchState = MerchantState.PERUSE;
 	}
 	
 	public void setState(GameState state) { this.state  = state; }
 	public GameState getState() { return this.state; }
-	
-	public void setMerchState(MerchantState m) { this.merchState = m; }
-	public MerchantState getMerchState() { return this.merchState; }
 	
 	public void setReady(boolean next) { this.next = next; }
 	public void setBack(boolean back) { this.back = back; }
@@ -100,18 +91,6 @@ public class KeyInput extends KeyAdapter {
 				back = true;
 			}
 			break;
-		case MERCHANT:
-			switch (merchState) {
-			case CONVERSE:
-				state = GameState.GAME_MENU;
-				break;
-			case PERUSE:
-				if (key == KeyEvent.VK_S) {
-					talking = true;
-				} else if (key == KeyEvent.VK_D) {
-					talking = false;
-				}
-			}
 		case HOUSE:
 		case WANDER:
 			if(key == KeyEvent.VK_UP) {
@@ -239,7 +218,6 @@ public class KeyInput extends KeyAdapter {
 				back = false;
 			}
 			break;
-		case MERCHANT:
 		case HOUSE:
 		case WANDER:
 			if (key == KeyEvent.VK_UP) {

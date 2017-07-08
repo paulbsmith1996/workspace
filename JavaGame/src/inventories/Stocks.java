@@ -1,137 +1,108 @@
 package inventories;
 // Paul Baird-Smith 2015
 
-import gameobjects.Player;
-
 import java.util.Random;
 
 import Items.ClothRobe;
-import Items.Fire;
 import Items.FurBoots;
 import Items.FurCap;
 import Items.FurCoat;
 import Items.FurGloves;
 import Items.FurLeggings;
 import Items.HealthPotion;
-import Items.Ice;
 import Items.IronOre;
 import Items.ManaPotion;
 import Items.Pickaxe;
-import Items.Restore;
-import Items.Sharpen;
-import Items.Spark;
 import Items.StoneSword;
 import Items.WoodSword;
+import gameobjects.Player;
 
 public class Stocks extends Inventory {
 
-    Player player;
-    
-    /**                                                                                 
-     * Ints holding quantities of each Potion type                                      
-     */
-    protected int totHP;
-    protected int totMana;
+	Player player;
 
-    /**                                                                                                          
-     * Create a Random object to generate Merchant's inventory                                                   
-     */
-    protected Random r;
+	/**
+	 * Ints holding quantities of each Potion type
+	 */
+	protected int totHP;
+	protected int totMana;
 
-    public Stocks(Player p, int level) {
+	/**
+	 * Create a Random object to generate Merchant's inventory
+	 */
+	protected Random r;
 
-	player = p;
+	public Stocks(Player p, int level) {
 
-	r = new Random();
+		player = p;
 
-	// Initialize amounts of Potion types                                           
-        totHP = 0;
-        totMana = 0;
+		r = new Random();
 
-        // Generate up to 10 random potions                                             
-        for (int y = 0; y < 10; y++) {
+		// Initialize amounts of Potion types
+		totHP = 0;
+		totMana = 0;
 
-            int roll = r.nextInt();
+		// Generate up to 10 random potions
+		for (int y = 0; y < 10; y++) {
 
-            if (roll%3 == 0) {
-                // E(X) = 3                                                             
-                addItem(new HealthPotion());
-                totHP++;
-            } else if (roll%3 == 1) {
-                // E(Y) = 3                                                             
-                addItem(new ManaPotion());
-                totMana++;
-            }
+			int roll = r.nextInt();
 
-            // E(X + Y) = 6                                                             
-        }
+			if (roll % 3 == 0) {
+				// E(X) = 3
+				addItem(new HealthPotion());
+				totHP++;
+			} else if (roll % 3 == 1) {
+				// E(Y) = 3
+				addItem(new ManaPotion());
+				totMana++;
+			}
 
-	populateArmaments(level);
-	populateSpells(level);
-	populateUtilities(level);
-	populateOres(level);
-    }
+			// E(X + Y) = 6
+		}
 
-    public void populateArmaments(int level) {
-	// Random Generation of non-Spells and non-Consumables                                                       
-	if (level < 10) {
-	    if (r.nextInt(2) == 1) {
-		addItem(new WoodSword());
-	    }
-	    
-	    if (r.nextInt(2) == 1) {
-		addItem(new FurCap());
-	    }
-	    
-	    if (r.nextInt(3) == 1) {
-		addItem(new FurLeggings());
-	    }
-	    
-	    if (r.nextInt(4) == 1) {
-		addItem(new FurCoat());
-	    }
-	} 
-
-	if (level >= 6 && level <= 15) {
-	
-	    if (r.nextInt(3) == 1) {
-		addItem(new ClothRobe(player));
-	    }
-	    
-	    if (r.nextInt(3) == 1) {
-		addItem(new StoneSword());
-	    }
+		populateArmaments(level);
+		populateUtilities(level);
+		populateOres(level);
 	}
 
-        // Add in basic Armors for all Merchants                                                                     
-        addItem(new FurBoots());
-        addItem(new FurGloves());
+	public void populateArmaments(int level) {
+		// Random Generation of non-Spells and non-Consumables
+		if (level < 10) {
+			addItem(new WoodSword());
+			addItem(new FurCap());
+			addItem(new FurLeggings());
+			addItem(new FurCoat());
 
-    }
+		}
 
-    public void populateSpells(int level) {
-        // Add in basic Spells for all Merchants 
-	if (level <= 7) {
-	    addItem(new Fire(player));
-	    addItem(new Ice(player));
-	    addItem(new Spark(player));
+		if (level >= 6 && level <= 15) {
+			addItem(new ClothRobe(player));
+			addItem(new StoneSword());
+		}
+
+		// Add in basic Armors for all Merchants
+		addItem(new FurBoots());
+		addItem(new FurGloves());
+
 	}
-
-	if (level >= 5) {
-	    addItem(new Restore(player));
-	    addItem(new Sharpen(player));
-	}
-    }
+	/*
+	 * public void populateSpells(int level) { // Add in basic Spells for all
+	 * Merchants if (level <= 7) { addItem(new Fire(player)); addItem(new
+	 * Ice(player)); addItem(new Spark(player)); }
+	 * 
+	 * if (level >= 5) { addItem(new Restore(player)); addItem(new
+	 * Sharpen(player)); } }
+	 */
 
 	public void populateUtilities(int level) {
 		addItem(new Pickaxe());
 	}
 
-    public void populateOres(int level) {
-	for(int i = 0; i < 10; i++) {
-	    if (r.nextInt(3) == 0) {
-		addItem(new IronOre());
-	    }
+	public void populateOres(int level) {
+		for (int i = 0; i < 10; i++) {
+			if (r.nextInt(3) == 0) {
+				addItem(new IronOre());
+			}
+		}
 	}
-    }
 }

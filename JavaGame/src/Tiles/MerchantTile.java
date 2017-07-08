@@ -9,12 +9,15 @@ import gameobjects.CounterRight;
 import gameobjects.Floor;
 import gameobjects.Merchant;
 import gameobjects.MerchantMat;
+import misc.Game;
 
 
-public class MerchantTile extends Tile {
+public class MerchantTile extends HouseTile {
 
-	public MerchantTile() {
-		super(TileManager.MERCHANT_X, TileManager.MERCHANT_Y);
+	private Game game;
+	
+	public MerchantTile(Game game) {
+		super(HouseReference.MERCHANT_1, game);
 	}
 	
 	@Override
@@ -41,7 +44,7 @@ public class MerchantTile extends Tile {
 		
 		setObject(new CounterBLCorner(),2,2);
 		setObject(new CounterBRCorner(),numCols() - 3,2);
-		setObject(new Merchant(), numCols() / 2, 1);
+		setObject(new Merchant(getGame()), numCols() / 2, 1);
 		setObject(new MerchantMat(), numCols() / 2, numRows() - 1);
 		
 	}

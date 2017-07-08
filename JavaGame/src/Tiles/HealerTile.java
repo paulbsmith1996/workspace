@@ -8,7 +8,7 @@ import gameobjects.Wall;
 public class HealerTile extends HouseTile {
 
 	public HealerTile() {
-		super(1);
+		super(HouseReference.HEALER);
 	}
 	
 	@Override

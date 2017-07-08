@@ -1,0 +1,10 @@
+1: l: 50 s: 4 t: 0 c: white f
+2: l: 50 s: -4 t: 0 c: red f
+3: l: 75 s: 3 t: 0 c: blue f
+3: l: 75 s: -3 t: 0 c: green f
+4: l: 80 s: 6 t: 0.5 c: magenta f
+5: l: 80 s: -6 t: 0.5 c: orange f
+6: l: 30 s: 2 t: 0.5 c: red f
+7: l: 30 s: -2 t: 0.5 c: cyan f
+8: l: 50 s: 5 t: 0.5 c: yellow f
+9: l: 50 s: -5 t: 0.5 c: blue f

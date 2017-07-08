@@ -5,6 +5,7 @@ import java.awt.Graphics;
 public class GameObject {
 
 	private int x, y;
+	private int DEFAULT_DIAMETER = 10;
 	
 	public GameObject(int x, int y) {
 		this.x = x;
@@ -29,7 +30,7 @@ public class GameObject {
 	
 	// Method to be overridden depending on the gameobject
 	public void draw(Graphics g) {
-		g.drawOval(x, y, 10, 10);
+		g.drawOval(x, y, DEFAULT_DIAMETER, DEFAULT_DIAMETER);
 	}
 	
 }

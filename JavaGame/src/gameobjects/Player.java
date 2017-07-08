@@ -1,22 +1,21 @@
 package gameobjects;
-import inventories.Holster;
-import inventories.Inventory;
-
 import java.awt.Rectangle;
 import java.util.Random;
 
-import misc.Controller;
-import resourceloaders.Images;
 import Interfaces.PlayerInt;
 import Items.Armament;
 import Items.Armor;
 import Items.Consumable;
 import Items.Item;
 import Items.Potion;
-import Items.Spell;
-import Items.SpellBook;
 import Items.Utility;
 import Items.Weapon;
+import inventories.Holster;
+import inventories.Inventory;
+import misc.Controller;
+import resourceloaders.Images;
+import spell.Spell;
+import spell.SpellBook;
 
 public class Player extends Creature implements PlayerInt {
 

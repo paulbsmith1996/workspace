@@ -1,4 +1,4 @@
-package Items;
+package spell;
 // Paul Baird-Smith 2015
 
 import gameobjects.Creature;
@@ -11,28 +11,27 @@ import java.util.Random;
  * depends on caster. Special variables for Spell class
  *
  */
-public class Spell extends Item {
+public class Spell {
 
 	/**
 	 * Holds type of this Spell
 	 */
 	protected String type;
+	protected String name;
+	protected String description;
+	protected int spellID;
 
 	/**
 	 * Holds cost in Mana for casting Spell
 	 */
 	protected int manaCost;
+	protected int cost;
 
 	/**
 	 * Holds raw damage value for spell when cast
 	 */
 	protected int damage;
 	protected int realDamage = 0;
-
-	/**
-	 * Variable defining owner or caster of Spell
-	 */
-	protected Creature caster;
 
 	/**
 	 * New Random object for probability
@@ -42,13 +41,14 @@ public class Spell extends Item {
 	private final int MARGIN_MULTIPLIER = 4;
 	private final int MARGIN_OF_ERROR = 40;
 	private final int MIN_DAMAGE = 10;
-
-	/**
-	 * Initialize type and owner
-	 */
-	public Spell(Creature player) {
-		this.caster = player;
-		this.itemType = ItemReference.SPELL;
+	
+	public Spell() {
+		this.description = "";
+	}
+	
+	public Spell(String name) {
+		this.name = name;
+		this.description = "";
 	}
 
 	/**
@@ -56,6 +56,21 @@ public class Spell extends Item {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * @return description of spell
+	 */
+	public String getDescription() {
+		return this.description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public int getSpellID() {
+		return this.spellID;
 	}
 
 	/**
@@ -70,6 +85,10 @@ public class Spell extends Item {
 	 */
 	public int getManaCost() {
 		return this.manaCost;
+	}
+	
+	public int getCost() {
+		return this.cost;
 	}
 
 	/**
@@ -89,7 +108,7 @@ public class Spell extends Item {
 	 * @param Creature
 	 *            - Creature that Spell is cast on
 	 */
-	public int cast(Creature other) {
+	public int cast(Creature caster, Creature other) {
 		// Determine type of Spell
 		if (!this.type.equals("Heal")) {
 			// Spell is not healing Spell

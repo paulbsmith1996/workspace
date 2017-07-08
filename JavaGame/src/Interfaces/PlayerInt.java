@@ -1,12 +1,11 @@
 package Interfaces;
 
-import gameobjects.Creature;
 import Items.Armament;
 import Items.Item;
 import Items.Potion;
-import Items.Spell;
-import Items.SpellBook;
-// Paul Baird-Smith 2015
+import gameobjects.Creature;
+import spell.Spell;
+import spell.SpellBook;
 
 public interface PlayerInt {
 

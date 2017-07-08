@@ -1,4 +1,4 @@
-package Items;
+package spell;
 
 import gameobjects.Creature;
 
@@ -12,20 +12,24 @@ import gameobjects.Creature;
  */
 public class Fire extends Spell {
 
+	private String description = "An introductory fire spell that causes more "
+			+ "damage to the target than other spells.";
+	
 	/**
 	 * Define Fire variables
 	 *
 	 * @param Creature
 	 *            - owner of the Fire Spell
 	 */
-	public Fire(Creature player) {
-		super(player);
+	public Fire() {
 		this.name = "Fire";
 		this.type = "Flame";
 		this.manaCost = 30;
 		this.cost = 70;
 		this.damage = 100;
-		this.ID = ItemReference.FIRE;
+		this.spellID = SpellReference.FIRE;
+		
+		setDescription(description);
 	}
 
 	/**

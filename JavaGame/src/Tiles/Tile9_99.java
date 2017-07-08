@@ -20,7 +20,7 @@ public class Tile9_99 extends Tile {
 	@Override
 	public void create() {
 		
-		//this.setCutScene(CutSceneReference.introScene);
+		this.setCutScene(CutSceneReference.introScene);
 		setArea(new Dirt(), 0, 0, numCols() - 1, numRows() - 1);
 		
 		setArea(new WaterDirt4(), 0, 0, 0, 3);

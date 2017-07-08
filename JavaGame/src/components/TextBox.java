@@ -19,6 +19,7 @@ public class TextBox extends Rectangle {
 	
 	private String text = "";
 	private Scanner textScan;
+	private Vector<String> textParts;
 	
 	private boolean visible;
 	private boolean wrap = true;
@@ -46,20 +47,25 @@ public class TextBox extends Rectangle {
 	public TextBox(int width, int height, boolean resize) {
 		super(width, height);
 		this.resize = resize;
+		textScan = new Scanner("");
+		textParts = new Vector<String>();
 	}
 
 	public TextBox(int x, int y, int width, int height, Game game, boolean resize) {
 		super(x, y, width, height);
 		this.game = game;
 		this.resize = resize;
+		textScan = new Scanner("");
+		textParts = new Vector<String>();
 	}
 	
 	public TextBox(int x, int y, int width, int height, String text, Game game, boolean resize) {
 		super(x, y, width, height);
 		this.text = text;
 		this.game = game;
-		textScan = new Scanner(text);
 		this.resize = resize;
+		textScan = new Scanner(text);
+		textParts = new Vector<String>();
 	}
 
 	public TextBox(Point p, Dimension d) {
@@ -73,32 +79,46 @@ public class TextBox extends Rectangle {
 	
 	public void setHeight(int val) { this.height = val; }
 
+	// Draw the text box
 	public void draw(Graphics g) {
 		if (visible) {
 			
 			g.setFont(new Font("TimesRoman", Font.BOLD, 18));
-			Vector<String> textParts = new Vector<String>();
 			
-			if (wrap && text.length() > width / 10) {
-				String curPart = "";
-				while (textScan.hasNext()) {
+			if (wrap) {
+				
+				textScan.useDelimiter(" ");
+				String curLine = "";
+				while(textScan.hasNext()) {
 					String nextWord = textScan.next();
-					curPart += nextWord + " ";
-
-					if (curPart.length() > width / 10) {
-						textParts.add(curPart);
-						curPart = "";
+					int lineLength = g.getFontMetrics().stringWidth(curLine + nextWord);
+					
+					if(lineLength > this.width - 2 * (TEXT_X_OFFSET + INNER_X_OFFSET + 4 * BUFFER) ) {
+						textParts.addElement(curLine + nextWord);
+						curLine = "";
+					} else {
+						curLine += nextWord + " ";
 					}
-
+					
 				}
-				textParts.add(curPart);
+				
+				if(!curLine.equals("")) {
+					textParts.addElement(curLine);
+				}
+				
+				
 			} else {			
 				if(!textScan.delimiter().toString().equals("\\p{javaWhitespace}+")) {
 					while(textScan.hasNext()) {
-						textParts.add(textScan.next());
+						String nextWord = textScan.next();
+						if(!nextWord.equals("")) {
+							textParts.add(nextWord);
+						}
 					}
 				} else {
-					textParts.add(text);
+					if(!text.equals("")) {
+						textParts.add(text);
+					}
 				}				
 			}
 			

@@ -14,32 +14,22 @@ public class IntroCutScene extends CutScene {
 	private final int TEXT_X = 0, TEXT_Y = Game.WINDOW_HEIGHT - 50;
 	private final int TEXT_WIDTH = Game.WINDOW_WIDTH, TEXT_HEIGHT = 50; 
 	
-	private final int NUM_SECS_PER_TEXT = 4;
+	private final int NUM_SECS_PER_TEXT = 3;
 	
 	private String[] text;
 	
 	public IntroCutScene(Game game) {
 		super(game);
 		
-		String[] temp = {"You were born Ethaniel of Aria, but this name no longer belongs to you.",
-						 "You are the prince of Aria, and heir to the throne which your father holds.",
-						 "From a young age, you were taught to fight with a sword,",
-						 "and you always believed yourself to be a natural warrior.",
-						 "The people of the kingdom adored and admired you, and would follow you",
-						 "to the ends of the Earth, if only you were to ask this of them.",
-						 "But now you are an outcast, banished for a crime...",
-						 "What crime?",
-						 "The fog in your mind is still so thick.",
-						 "You know that somehow you must find a way to clear your name.",
-						 "What did you do?",
-						 "You need to return to Aria,",
-						 "Even if it may cost you your life.", 
-						 "Why did this happen?",
-						 "Where are you?", 
-						 "What shall you do?",
-						 "Remember who you are! It is within you, I know.",
-						 "Go! I will not be far away."
+		
+		String[] temp = {"Welcome to the land of Aria. A continent divided into 3 nations.",
+						 "Use the arrow keys to move around and the 'S' and 'D' keys to interact",
+						 "with the world around you."
 						 };
+						 
+		
+		
+		//String[] temp = {"Where am I?"};
 		
 		this.text = temp;
 		

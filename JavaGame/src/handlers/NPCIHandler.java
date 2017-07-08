@@ -8,8 +8,10 @@ import components.TextBox;
 import cutscene.HealingScene;
 import gameobjects.Healer;
 import gameobjects.Interactable;
+import gameobjects.Merchant;
 import gameobjects.Player;
 import gameobjects.RawOre;
+import gameobjects.Wizard;
 import misc.Controller;
 import misc.Game;
 import misc.KeyInput;
@@ -34,21 +36,24 @@ public class NPCIHandler {
 			
 			if(talker instanceof RawOre) {
 				mineOre(game, player, (RawOre)talker);
-			} else if(!(talker instanceof Healer)) {
+			} else if(talker instanceof Merchant) {
+				((Merchant)talker).converse(player);
+			} else if(talker instanceof Healer) {
+				talkToHealer(game, player, talker, t);	
+			} else if(talker instanceof Wizard) {
+				((Wizard)talker).converse(player);
+			} else {
 				for(String text: talker.interact()) {
 					game.sleep(TEXT_WAIT_TIME);
+					t = new TextBox(TEXT_X, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT, game, false);
 					t.setText(text);
+					t.setVisible(true);
 					game.addTextBox(t);
+					
 					game.repaint();
 					game.waitInput();
 					game.removeTextBox(t);
 				}
-			}
-			
-			if(talker instanceof Healer) {
-				
-				talkToHealer(game, player, talker, t);			
-				
 			}
 			
 			// Wait extra long to not start a new interaction
@@ -116,24 +121,28 @@ public class NPCIHandler {
 	}
 	
 	public static void checkBoundsHit(Game game, Player player, int width, int height) {
+		
 		if(player.intersects(game.getLeftBounds())) {
 			game.setXCoord(game.getXCoord() - 1);
 			player.setX(width - player.getWidth() - 5);
 			game.setController(TileManager.getController(game.getXCoord(), game.getYCoord()));
 			game.getController().add(player);
 		}
+		
 		if(player.intersects(game.getRightBounds())) {
 			player.setX(5);
 			game.setXCoord(game.getXCoord() + 1);
 			game.setController(TileManager.getController(game.getXCoord(), game.getYCoord()));
 			game.getController().add(player);
 		}
+		
 		if(player.intersects(game.getTopBounds())) {
 			player.setY(height - player.getHeight() - 5);
 			game.setYCoord(game.getYCoord() -1);
 			game.setController(TileManager.getController(game.getXCoord(), game.getYCoord()));
 			game.getController().add(player);
 		}
+		
 		if(player.intersects(game.getBottomBounds())) {
 			player.setY(5);
 			game.setYCoord(game.getYCoord() + 1);

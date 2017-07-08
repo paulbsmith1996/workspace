@@ -1,30 +1,26 @@
 package handlers;
 // Paul Baird-Smith 2015
 
+import java.awt.Graphics;
+import java.util.Random;
+import java.util.Scanner;
+
+import Enums.GameState;
+import Items.Item;
+import Items.ItemReference;
+import Tiles.MerchantTile;
+import components.NumberSelector;
+import components.TextBox;
+import components.TextMenu;
 import gameobjects.GameObject;
 import gameobjects.Merchant;
 import gameobjects.Player;
 import inventories.Pocket;
 import inventories.Stocks;
-
-import java.awt.Graphics;
-import java.util.Random;
-import java.util.Scanner;
-
 import misc.Controller;
 import misc.Game;
 import misc.KeyInput;
 import misc.Renderer;
-import Enums.GameState;
-import Enums.MerchantState;
-import Items.Item;
-import Items.ItemReference;
-import Items.Spell;
-import Tiles.MerchantTile;
-
-import components.NumberSelector;
-import components.TextBox;
-import components.TextMenu;
 
 /**
  *
@@ -63,8 +59,7 @@ public class MerchantHandler {
 	private MerchantTile environment;
 	
 	private KeyInput kInput;	
-	private Merchant vendor;	
-	private MerchantState merchState;	
+	private Merchant vendor;		
 	private Game game;
 	
 	private TextBox t;
@@ -83,11 +78,10 @@ public class MerchantHandler {
 	public MerchantHandler(Game game, Stocks wares) {
 		
 		this.game = game;
-		this.environment = new MerchantTile();
 		this.c = environment.getController();
 		
 		this.kInput = game.getInterpreter();
-		kInput.setState(GameState.MERCHANT);		
+		kInput.setState(GameState.HOUSE);		
 		
 		width = game.getWidth();
 		height = game.getHeight();
@@ -116,51 +110,13 @@ public class MerchantHandler {
 		// Initialize Scanner and Random objects
 		scan = new Scanner(System.in);
 		r = new Random();
-		
-		merchState = MerchantState.PERUSE;
 	}
 	
 	public Stocks getWares() { return this.wares; }
 	public MerchantTile getEnvironment() { return this.environment; }
 	
 	public void setUp() {
-		switch(merchState) {
-		case PERUSE:
-			peruse();
-			break;
-		case CONVERSE:
-			converse();
-			break;
-		}
 		game.repaint();
-	}
-	
-	public void peruse() {
-		if(m != null) {
-			m.setVisible(false);
-		}
-		
-		if(moneyText != null) {
-			moneyText.setVisible(false);
-		}
-		
-		if(t != null) {
-			t.setVisible(false);
-		}
-		
-		kInput.setMerchState(MerchantState.PERUSE);
-		player.move(c);
-		
-		if(player.getY() + player.getHeight() > game.getHeight()) {
-			player.setPos(game.entranceX(), game.entranceY());
-			game.setState(GameState.WANDER);
-		}
-		
-		if(vendor != null && player.getDistance(vendor) < TALKINGDISTANCE) {
-			if(kInput.isTalking()) {
-				merchState = MerchantState.CONVERSE;
-			}
-		}
 	}
 
 	public int converse() {
@@ -168,8 +124,6 @@ public class MerchantHandler {
 		player.setStill();
 
 		boolean buying = true;
-
-		kInput.setMerchState(MerchantState.CONVERSE);
 		
 		String[] buysell = { "BUY", "SELL" };
 		
@@ -177,7 +131,7 @@ public class MerchantHandler {
 				"Ore" };
 		
 		String[] buyChoices = { "Weapons", "Armor", "Potions", "Utility", 
-				"Ore", "Spells"};
+				"Ore"};
 		
 		// Retrieve player's total amount of money
 		playerMon = player.getInventory().getMoney();
@@ -194,17 +148,11 @@ public class MerchantHandler {
 			buying = false;
 			displayMenu(sellChoices, 1, true);
 		} else if (m.getSelected() == 2) {
-			merchState = MerchantState.PERUSE;
 			kInput.setTalking(false);
 			return 0;
 		}
 
-		if (m.getSelected() == 5) {
-			// User requests to buy/sell Spells
-			if(buying) {
-				selection(wares.findPocket(ItemReference.SPELL), buying);
-			}
-		} else if (m.getSelected() == 2) {
+		if (m.getSelected() == 2) {
 			// User requests to buy/sell Potions
 			selection(wares.findPocket(ItemReference.POTION), buying);
 		} else if (m.getSelected() == 0) {
@@ -249,14 +197,7 @@ public class MerchantHandler {
 			wares.removeItem(a);
 		}
 
-		// Different cases: is or is not a Spell
-		if (a.getItemType() != ItemReference.SPELL) {
-			// Item is not a Spell
 			player.store(a, quant);
-		} else {
-			// Item is a Spell
-			player.getBook().add((Spell) a);
-		}
 	}
 
 	/**

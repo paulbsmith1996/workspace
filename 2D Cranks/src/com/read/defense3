@@ -1,0 +1,10 @@
+1: l: 48 s: 0 t: 0 c: white 
+2: l: 36 s: 1 t: 0 c: blue 
+3: l: 36 s: -1 t: 0 c: orange 
+4: l: 138 s: 0 t: 0.5 c: magenta 
+5: l: 177 s: 1 t: 0.5 c: yellow 
+6: l: 177 s: -1 t: 0.5 c: white
+7: l: 75 s: 2 t: 0.5 c: red 
+8: l: 75 s: -2 t: 0.5 c: black 
+9: l: 62 s: 3 t: 0.5 c: blue 
+10: l: 62 s: -3 t: 0.5 c: white
