@@ -2,7 +2,7 @@ package Items;
 
 public class Prices {
 	
-	public static final int WOOD_SWORD = 1000;
+	public static final int WOOD_SWORD = 1001;
 	public static final int STONE_SWORD = 1500;
 	
 	public static final int CLOTH_ROBE = 2000;
