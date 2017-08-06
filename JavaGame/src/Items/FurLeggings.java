@@ -15,7 +15,7 @@ public class FurLeggings extends Armor {
 	this.ID = ItemReference.FURLEGGINGS;
 	this.name = "Fur Leggings";
 	this.armorType = "Legging";
-	this.cost = 50;
+	this.cost = Prices.FUR_LEGGINGS;
 	this.defense = 20;
     }
 }

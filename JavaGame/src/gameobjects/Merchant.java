@@ -1,7 +1,5 @@
 package gameobjects;
 
-import java.util.Random;
-
 import Enums.GameState;
 import Items.Item;
 import Items.ItemReference;
@@ -250,10 +248,12 @@ public class Merchant extends Interactable {
 		numSelect.setVisible(true);
 		
 		game.addKeyListener(numSelect);
+		game.removeKeyListener(kInput);
 		while (!numSelect.isReady()) {
 			amountStr = numSelect.getValue();
 			game.repaint();
 		}
+		game.addKeyListener(kInput);
 		game.removeKeyListener(numSelect);
 		
 		numSelect.setVisible(false);

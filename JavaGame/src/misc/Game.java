@@ -65,8 +65,8 @@ public class Game extends Applet implements Runnable {
 	private GameState prevState;
 	
 	// Start of the game is at (9, 99)
-	private int xCoord = 11;
-	private int yCoord = 97;
+	private int xCoord = 9;
+	private int yCoord = 100;
 	
 	private final int START_X_COORD = 100, START_Y_COORD = 150;
 	
@@ -80,13 +80,13 @@ public class Game extends Applet implements Runnable {
 	/********* Variables needed for Game start *********/
 	
 	// int array holding stats for player
-	private final int LEVEL = 1;
-	private final int HP = 		400 + 50 * (LEVEL - 1);
+	private final int LEVEL = 3;
+	private final int HP = 		1500 + 50 * (LEVEL - 1);
 	private final int MANA = 	180 + 30 * (LEVEL - 1);
-	private final int AP = 		60 	+ 20 * (LEVEL - 1);
-	private final int DP = 		50 	+ 20 * (LEVEL - 1);
-	private final int MA = 		50 	+ 20 * (LEVEL - 1);
-	private final int MD = 		60 	+ 20 * (LEVEL - 1);
+	private final int AP = 		230 	+ 30 * (LEVEL - 1);
+	private final int DP = 		200 	+ 30 * (LEVEL - 1);
+	private final int MA = 		210 	+ 30 * (LEVEL - 1);
+	private final int MD = 		220 	+ 30 * (LEVEL - 1);
 	
 	private int[] stats = { HP, MANA, AP, DP, LEVEL, MA, MD };
 
@@ -323,9 +323,9 @@ public class Game extends Applet implements Runnable {
 	
 	// Handles case where game state is WANDER
 	public void handleWander() {
-		if(playMusic) {
-			AudioPlayer.playMusic(Audio.MUSIC_AMBIENT);
-		}
+		//if(playMusic) {
+		//	AudioPlayer.playMusic(Audio.MUSIC_AMBIENT);
+		//}
 		
 		wh.wander();
 		
@@ -457,6 +457,9 @@ public class Game extends Applet implements Runnable {
 		}
 
 		if (moneyText != null) {
+			String money = Integer.toString(player.getInventory().getMoney());
+			//moneyText = new TextBox(10, 10, 200, 30, this, true);
+			moneyText.setText("Money: " + money);
 			moneyText.draw(g);
 		}
 		
@@ -514,7 +517,9 @@ public class Game extends Applet implements Runnable {
 	
 	public void displayMoney() {
 		String money = Integer.toString(player.getInventory().getMoney());
-		moneyText = new TextBox(10, 10, 200, 30, this, true);
+		if(moneyText == null) {
+			moneyText = new TextBox(10, 10, 200, 30, this, true);
+		}
 		moneyText.setText("Money: " + money);
 		moneyText.setVisible(true);
 

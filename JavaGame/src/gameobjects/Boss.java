@@ -14,14 +14,12 @@ public class Boss extends NPC {
 		String[] text = {"Hello. I am a boss"};
 		this.dialogue = text;
 		
-		this.health = 50 + 70 * level;
-		this.maxHP = 50 + 70 * level;
-		this.maxMana = 100 + 40 * level;
-		this.mana = 100 + 40 * level;
-		this.ap = 30 + 10 * level;
-		this.dp = 30 + 10 * level;
-		this.ma = 30 + 10 * level;
-		this.md = 30 + 10 * level;
+		this.maxHP = this.health = 1500 + 70 * level;
+		this.maxMana = this.mana =  300 + 40 * level;
+		this.ap = 230 + 40 * level;
+		this.dp = 200 + 40 * level;
+		this.ma = 210 + 40 * level;
+		this.md = 220 + 40 * level;
 	}
 	
 	public void setDialogue(String[] arr) { this.dialogue = arr; }

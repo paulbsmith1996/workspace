@@ -20,8 +20,8 @@ public class Tile10_100 extends Tile{
 		
 		setArea(new Dirt(), 0, 2, numCols() - 1, numRows() - 3);
 		
-		addMob(new Goblin(200, 200, 3, 1, 1));
-		addMob(new Goblin(200, 100, 3, -1, 1));
+		addMob(new Goblin(200, 200, 3, 1, 2));
+		addMob(new Goblin(200, 100, 3, -1, 2));
 		
 		for(int x = 1; x + 1 < numCols(); x += 2) {
 			addBushyTree(x, 0);

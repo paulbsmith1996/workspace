@@ -1,15 +1,16 @@
 package misc;
+import java.awt.Graphics;
+
+import Tiles.BattleTileDirt;
+import Tiles.BattleTileMine;
+import Tiles.Tile;
+import Tiles.TileManager;
+import cutscene.CutScene;
 import gameobjects.GameObject;
 import gameobjects.NPC;
 import gameobjects.RawOre;
 import handlers.HouseHandler;
 import handlers.MerchantHandler;
-
-import java.awt.Graphics;
-
-import Tiles.Tile;
-import Tiles.TileManager;
-import cutscene.CutScene;
 
 
 public class Renderer {
@@ -76,6 +77,13 @@ public class Renderer {
 		}
 		
 		if(t != null) {
+			int mostCommon = t.getMostCommonObject();
+			
+			if(mostCommon == 0 || mostCommon == 1) {
+				t = new BattleTileDirt();
+			} else if(mostCommon == 2) {
+				t = new BattleTileMine();
+			}
 			t.draw(g);
 		}
 	}

@@ -3,21 +3,27 @@ package Tiles;
 import java.awt.Graphics;
 import java.util.Vector;
 
+import org.newdawn.slick.Music;
+
 import cutscene.CutScene;
 import gameobjects.BushyTreeLL;
 import gameobjects.BushyTreeLR;
 import gameobjects.BushyTreeTL;
 import gameobjects.BushyTreeTR;
 import gameobjects.Creature;
+import gameobjects.Dirt;
 import gameobjects.GameObject;
+import gameobjects.Grass;
 import gameobjects.HouseDoor;
 import gameobjects.HouseLeft;
 import gameobjects.HouseRight;
 import gameobjects.MerchantCenter;
 import gameobjects.MerchantLeft;
 import gameobjects.MerchantRight;
+import gameobjects.MineFloor;
 import gameobjects.NPC;
 import gameobjects.Obstacle;
+import gameobjects.VillageFloor;
 import misc.Controller;
 import misc.Game;
 
@@ -32,6 +38,7 @@ public class Tile {
 	private Controller c;
 	private Vector<Creature> mobs;
 	private CutScene cs;
+	private String music;
 	
 	private Game game;
 	
@@ -41,6 +48,7 @@ public class Tile {
 		this.c = new Controller();
 		
 		this.cs = null;
+		this.music = null;
 		
 		tileObjects = new GameObject[NUMCOLS][NUMROWS];
 		backGround = new GameObject[NUMCOLS][NUMROWS];
@@ -56,6 +64,7 @@ public class Tile {
 		this.c = new Controller();
 		
 		this.cs = null;
+		this.music = null;
 		
 		tileObjects = new GameObject[NUMCOLS][NUMROWS];
 		backGround = new GameObject[NUMCOLS][NUMROWS];
@@ -85,6 +94,9 @@ public class Tile {
 	
 	public CutScene getCutScene() { return this.cs; }
 	public void setCutScene(CutScene cs) { this.cs = cs; }
+	
+	public String getMusic() { return this.music; }
+	public void setMusic(String m) { this.music = m; }
 	
 	public void addMob(Creature creature) {
 		mobs.add(creature);
@@ -190,6 +202,48 @@ public class Tile {
 				}
 			}
 		}
+	}
+	
+	public int[] getObjectCounts() {
+		
+		int[] counts = new int[10];
+		
+		for(GameObject[] row: tileObjects) {
+			for(GameObject obj: row) {
+				if(obj instanceof Dirt) {
+					counts[0]++;
+				} else if(obj instanceof Grass) {
+					counts[1]++;
+				} else if(obj instanceof MineFloor) {
+					counts[2]++;
+				} else if(obj instanceof VillageFloor) {
+					counts[3]++;
+				}
+			}
+		}
+		
+		return counts;
+	}
+	
+	// Table for which number is returned according to the most common object
+	// Dirt         -- 0
+	// Grass        -- 1
+	// MineFloor    -- 2
+	// VillageFloor -- 3
+	public int getMostCommonObject() {
+		int[] counts = getObjectCounts();
+		int max = 0;
+		int maxIndex = 0;
+		
+		for(int i = 0; i < counts.length; i++) {
+			int count = counts[i];
+			if(count > max) {
+				max = count;
+				maxIndex = i;
+			}
+		}
+		
+		return maxIndex;
 	}
 	
 	// To override

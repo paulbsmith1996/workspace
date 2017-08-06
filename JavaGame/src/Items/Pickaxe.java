@@ -3,11 +3,11 @@ package Items;
 
 public class Pickaxe extends Utility {
 
-    public Pickaxe() {
-	this.ID = ItemReference.PICKAXE;
-	this.name = "Pickaxe";
-	this.cost = 70;
-	setUses(3);
-    }
+	public Pickaxe() {
+		this.ID = ItemReference.PICKAXE;
+		this.name = "Pickaxe";
+		this.cost = Prices.PICKAXE;
+		setUses(3);
+	}
 
 }

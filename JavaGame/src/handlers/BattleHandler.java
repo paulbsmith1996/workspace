@@ -2,7 +2,6 @@ package handlers;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
-import java.util.Vector;
 
 import Enums.BattleState;
 import Enums.GameState;
@@ -240,7 +239,7 @@ public class BattleHandler {
 			displayBText("Battle Won!");
 			displayBText("You earned " + money + " coins");
 			displayBText("You gained " + exp + "EXP! You need "
-					+ (200 * player.getLevel() - player.getEXP())
+					+ (player.EXP_PER_LEVEL * player.getLevel() * player.getLevel() - player.getEXP())
 					+ "EXP to level up!");
 			
 			// Remove any buffs Player may have cast

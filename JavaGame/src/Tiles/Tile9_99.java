@@ -10,6 +10,7 @@ import gameobjects.WaterDirt2;
 import gameobjects.WaterDirt3;
 import gameobjects.WaterDirt4;
 import gameobjects.WaterDirt6;
+import resourceloaders.Audio;
 
 public class Tile9_99 extends Tile {
 
@@ -46,5 +47,7 @@ public class Tile9_99 extends Tile {
 		introTab.setDialogue(text);
 		
 		setObject(introTab, numCols() / 2, 3);
+		
+		setMusic(Audio.MUSIC_AMBIENT);
 	}
 }

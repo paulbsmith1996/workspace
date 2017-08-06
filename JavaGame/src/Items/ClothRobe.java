@@ -21,7 +21,7 @@ public class ClothRobe extends Armor {
 		this.ID = ItemReference.CLOTHROBE;
 		this.name = "Cloth Robe";
 		this.armorType = "Chest";
-		this.cost = 200;
+		this.cost = Prices.CLOTH_ROBE;
 		// Relatively low defense, but very good addedEffects
 		this.defense = 30;
 	}

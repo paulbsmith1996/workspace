@@ -202,11 +202,15 @@ public class Creature extends GameObject implements CreatureInt {
 	public int attack(Creature other) {
 
 		Random r = new Random();
+		
+		// The fraction of the creature's AP that will be used as a margin
+		// i.e. if frac = 10, then attack will be between [9/10 * AP, 11/10 * AP]
+		int frac = 20;
 
 		// Probabilistic determination of attack and defense strength of each
 		// Creature
-		int attack = 3 * (3 * getAP() / 4 + r.nextInt(getAP() / 2));
-		int defense = 3 * (3 * getDP() / 4 + r.nextInt(getDP() / 2));
+		int attack  = 5 * ((frac - 1) * getAP() / frac + r.nextInt(getAP() / (frac / 2)));
+		int defense = 4 * ((frac - 1) * other.getDP() / frac + r.nextInt(other.getDP() / (frac / 2)));
 
 		if (attack > defense) {
 			// Player's attack is higher

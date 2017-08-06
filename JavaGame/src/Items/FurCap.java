@@ -15,7 +15,7 @@ public class FurCap extends Armor {
 	this.ID = ItemReference.FURCAP;
 	this.name = "Fur Cap";
 	this.armorType = "Helmet";
-	this.cost = 40;
+	this.cost = Prices.FUR_CAP;
 	this.defense = 20;
     }
 

@@ -23,6 +23,8 @@ public class AudioPlayer {
 	public static boolean musicOn() { return musicOn; }
 	public static void setMusic(boolean b) { musicOn = b; }
 	
+	public static Music getPlaying() { return playing; }
+	
 	public static void addSound(String key, String path) {
 		try {
 			soundMap.put(key, new Sound(ResourceReference.SOUND_LOCATION + path));
@@ -80,7 +82,9 @@ public class AudioPlayer {
 	}
 	
 	public static void playPrev() {
-		wasPlaying.loop();
+		if(wasPlaying != null) {
+			wasPlaying.loop();
+		}
 		
 		playing = wasPlaying;
 	}

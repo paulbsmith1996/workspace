@@ -75,6 +75,7 @@ public class HouseHandler {
 	public boolean isNewHouse() { return this.newHouse; }
 	
 	public void update() {
+		newHouse = false;
 		kInput.setState(GameState.HOUSE);
 		player.move(c);
 		

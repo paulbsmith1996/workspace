@@ -22,20 +22,40 @@ public class TileManager {
 		worldTiles.add(new Tile0_1());		
 		worldTiles.add(new Tile1_0());
 		
+		// First path to Large Pebble
 		worldTiles.add(new Tile9_99());
-		worldTiles.add(new Tile9_100());
-		
+		worldTiles.add(new Tile9_100());		
 		worldTiles.add(new Tile10_100());
-		
 		worldTiles.add(new Tile11_100());
 		worldTiles.add(new Tile11_99());
 		worldTiles.add(new Tile11_98());
+		
+		// Large Pebble
 		worldTiles.add(new Tile11_97());
 		
+		// First mine near Large Pebble
 		worldTiles.add(new Tile10_97());
 		worldTiles.add(new Tile10_96());
 		worldTiles.add(new Tile9_96());
+		worldTiles.add(new Tile9_97());
+		worldTiles.add(new Tile9_98());
+		worldTiles.add(new Tile8_97());
+		worldTiles.add(new Tile7_97());
+		worldTiles.add(new Tile6_97());
 		
+		worldTiles.add(new Tile6_96());
+		worldTiles.add(new Tile5_96());
+		worldTiles.add(new Tile4_96());
+		
+		worldTiles.add(new Tile6_98());
+		worldTiles.add(new Tile5_98());
+		worldTiles.add(new Tile4_98());
+		
+		worldTiles.add(new Tile4_97());
+		worldTiles.add(new Tile3_97());
+		
+		
+		// Path after Larg Pebble with first boss
 		worldTiles.add(new Tile12_97());
 		worldTiles.add(new Tile12_96());
 		worldTiles.add(new Tile12_95());

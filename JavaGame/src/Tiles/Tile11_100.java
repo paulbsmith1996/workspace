@@ -15,8 +15,8 @@ public class Tile11_100 extends Tile{
 	public void create() {
 		setArea(new Dirt(), 0, 4, numCols() - 5, numRows() - 5);		
 		
-		addMob(new Goblin(200,150,-2,2,1));
-		addMob(new Goblin(140,10,-3,-2,1));
+		addMob(new Goblin(200, 150, -2, 2, 2));
+		addMob(new Goblin(140, 10, -3, -2, 3));
 		
 		setArea(new Grass(), 0, numRows() - 4, numCols() - 1, numRows() - 1);
 		setArea(new Grass(), 0, 0, 3, 3);

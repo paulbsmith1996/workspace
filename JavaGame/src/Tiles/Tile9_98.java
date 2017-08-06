@@ -2,14 +2,13 @@ package Tiles;
 
 import gameobjects.Blank;
 import gameobjects.Dirt;
-import gameobjects.Goblin;
 import gameobjects.IronRock;
 import gameobjects.MineFloor;
 
-public class Tile9_96 extends Tile {
+public class Tile9_98 extends Tile {
 
-	public Tile9_96() {
-		super(9, 96);
+	public Tile9_98() {
+		super(9, 98);
 	}
 	
 	@Override
@@ -21,12 +20,11 @@ public class Tile9_96 extends Tile {
 		
 		setColumn(new Blank(), 0);
 		setColumn(new Blank(), numCols() - 1);
-		setArea(new MineFloor(), numCols() - 1, 3, numCols() - 1, numRows() - 4);
 		
-		setArea(new MineFloor(), 3, numRows() - 1, 7, numRows() - 1);
+		setArea(new MineFloor(), 3, 0, 7, 0);
 		
-		addMob(new Goblin(200, 150, -1, 2, 10));
-		addMob(new Goblin(30, 150, 3, 2, 10));
-		addMob(new Goblin(50, 60, -2, 4, 10));
+		setObject(new IronRock(), numCols() / 2, numRows() / 2);
+		setObject(new IronRock(), numCols() / 2 - 3, numRows() / 2 - 2);
+		setObject(new IronRock(), numCols() / 2 + 3, numRows() / 2 - 2);
 	}
 }

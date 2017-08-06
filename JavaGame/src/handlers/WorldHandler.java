@@ -1,7 +1,10 @@
 package handlers;
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Music;
+
 import Enums.GameState;
+import Tiles.Tile;
 import Tiles.TileManager;
 import components.TextBox;
 import gameobjects.Boss;
@@ -15,6 +18,8 @@ import gameobjects.WizardDoor;
 import misc.Controller;
 import misc.Game;
 import misc.KeyInput;
+import resourceloaders.Audio;
+import resourceloaders.AudioPlayer;
 
 
 public class WorldHandler {
@@ -56,6 +61,14 @@ public class WorldHandler {
 		
 		c = TileManager.getController(game.getXCoord(), game.getYCoord());
 		player = game.getPlayer();
+		
+		Tile curTile = TileManager.getTile(game.getXCoord(), game.getYCoord());
+		String tileMusic = curTile.getMusic();
+		if(tileMusic != null && game.playMusic()) {
+			AudioPlayer.playMusic(tileMusic);
+		} else if(tileMusic == null && game.playMusic()) {
+			AudioPlayer.playMusic(Audio.MUSIC_AMBIENT);
+		}
 		
 		if(!c.contains(player)) {
 			c.add(player);

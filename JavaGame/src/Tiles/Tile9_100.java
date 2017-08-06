@@ -3,6 +3,8 @@ package Tiles;
 import gameobjects.Dirt;
 import gameobjects.Fence;
 import gameobjects.StoneTablet;
+import resourceloaders.Audio;
+import resourceloaders.AudioPlayer;
 
 public class Tile9_100 extends Tile {
 
@@ -27,5 +29,7 @@ public class Tile9_100 extends Tile {
 		setObject(warning, numCols() / 2 - 1, numRows() - 3);
 		
 		addBushyTree(2, 5);
+		
+		setMusic(Audio.MUSIC_AMBIENT);
 	}
 }

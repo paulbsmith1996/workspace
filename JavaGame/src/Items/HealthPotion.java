@@ -14,9 +14,9 @@ public class HealthPotion extends Potion {
 	public HealthPotion() {
 		this.PotType = "Health";
 		this.name = "Health Potion";
-		this.strength = 100;
+		this.strength = 500;
 		this.ID = ItemReference.HEALTHPOTION;
-		this.cost = 40;
+		this.cost = Prices.HEALTH_POTION;
 	}
 
 }

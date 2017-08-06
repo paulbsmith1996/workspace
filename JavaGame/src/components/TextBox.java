@@ -152,6 +152,8 @@ public class TextBox extends Rectangle {
 				g.drawString(s, x + INNER_X_OFFSET + TEXT_X_OFFSET, tempY);
 				tempY += g.getFontMetrics().getHeight() + LINE_SPACING;
 			}
+			
+			textParts = new Vector<String>();
 		}
 	}
 	

@@ -9,14 +9,14 @@ package Items;
  */
 public class StoneSword extends Weapon {
 
-    /**
-     * Define Item and Weapon variables for StoneSword
-     */
-    public StoneSword() {
-	this.ID = ItemReference.STONESWORD;
-	this.name = "Stone Sword";
-	this.attack = 50;
-	this.cost = 150;
-    }
+	/**
+	 * Define Item and Weapon variables for StoneSword
+	 */
+	public StoneSword() {
+		this.ID = ItemReference.STONESWORD;
+		this.name = "Stone Sword";
+		this.attack = 50;
+		this.cost = Prices.STONE_SWORD;
+	}
 
 }

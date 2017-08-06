@@ -15,6 +15,7 @@ import misc.Game;
 public class MerchantTile extends HouseTile {
 
 	private Game game;
+	private boolean loaded = false;
 	
 	public MerchantTile(Game game) {
 		super(HouseReference.MERCHANT_1, game);
@@ -44,8 +45,13 @@ public class MerchantTile extends HouseTile {
 		
 		setObject(new CounterBLCorner(),2,2);
 		setObject(new CounterBRCorner(),numCols() - 3,2);
-		setObject(new Merchant(getGame()), numCols() / 2, 1);
+		
+		if(!loaded) {
+			setObject(new Merchant(getGame()), numCols() / 2, 1);
+		}
 		setObject(new MerchantMat(), numCols() / 2, numRows() - 1);
+		
+		loaded = true;
 		
 	}
 	

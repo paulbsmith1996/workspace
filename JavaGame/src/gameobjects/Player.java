@@ -20,6 +20,7 @@ import spell.SpellBook;
 public class Player extends Creature implements PlayerInt {
 
 	private int side = 0;
+	public final int EXP_PER_LEVEL = 200;
 	
 	public GameObject move(Controller c) {
 		setX(getX() + velX);
@@ -428,8 +429,8 @@ public class Player extends Creature implements PlayerInt {
 		this.exp += exp;
 
 		// Determine if Player has levelled up
-		if (this.exp >= (200 * level)) {
-			this.exp -= (200 * level);
+		if (this.exp >= (EXP_PER_LEVEL * level * level)) {
+			this.exp -= (EXP_PER_LEVEL * level * level);
 			//levelUp();
 			// Notify if player has levelled up
 			return 1;

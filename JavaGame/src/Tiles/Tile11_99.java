@@ -44,8 +44,8 @@ public class Tile11_99 extends Tile{
 		//addBushyTree(numCols() - 5, numRows() - 2);
 		addBushyTree(numCols() - 3, numRows() - 2);
 		
-		addMob(new Goblin(75, 200, -3, 3, 1));
-		addMob(new Goblin(40, 100, 2, -3, 2));
+		addMob(new Goblin(75, 200, -3, 3, 3));
+		addMob(new Goblin(40, 100, 2, -3, 4));
 	}
 }
 

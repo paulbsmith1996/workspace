@@ -53,12 +53,14 @@ public class Controller extends Vector<GameObject> {
 			// Checks that GameObject is an NPC and it intersects
 			// passed Creature
 			
-			if(obj instanceof Boss) {
-				int creatureY = creature.getY();
-				int bossY = obj.getY();
-				if(creatureY > bossY && creatureY <= bossY + obj.getHeight()) {
+			if(obj instanceof Boss && obj.intersects(creature.getBounds())) {
+				//int creatureY = creature.getY();
+				//int creatureX = creature.getX();
+				//int bossY = obj.getY();
+				//int bossX = obj.getX();
+				//if(creatureY > bossY && creatureY <= bossY + obj.getHeight()) {
 					return (NPC) obj;
-				}
+				//}
 			}
 			
 			if(obj instanceof NPC && obj.intersects(creature.getBounds())) {

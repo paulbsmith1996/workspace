@@ -3,20 +3,20 @@ package Items;
 
 /**
  *
- * Class WoodSword - Defines objects of class Weapon that boost attack points
- * by smallest amount possible
+ * Class WoodSword - Defines objects of class Weapon that boost attack points by
+ * smallest amount possible
  *
  */
 public class WoodSword extends Weapon {
 
-    /**
-     * Define Item and Weapon variables for WoodSword objects
-     */
-    public WoodSword() {
-	this.ID = ItemReference.WOODSWORD;
-	this.name = "Wood Sword";
-	this.cost = 100;
-	this.attack = 30;
-    }
+	/**
+	 * Define Item and Weapon variables for WoodSword objects
+	 */
+	public WoodSword() {
+		this.ID = ItemReference.WOODSWORD;
+		this.name = "Wood Sword";
+		this.cost = Prices.WOOD_SWORD;
+		this.attack = 30;
+	}
 
 }

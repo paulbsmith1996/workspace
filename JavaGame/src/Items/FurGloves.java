@@ -8,14 +8,14 @@ package Items;
  */
 public class FurGloves extends Armor {
 
-    /**
-     * Define Fur Gloves variables
-     */
-    public FurGloves() {
-	this.ID = ItemReference.FURGLOVES;
-	this.name = "Fur Gloves";
-	this.armorType = "Glove";
-	this.cost = 30;
-	this.defense = 10;
-    }
+	/**
+	 * Define Fur Gloves variables
+	 */
+	public FurGloves() {
+		this.ID = ItemReference.FURGLOVES;
+		this.name = "Fur Gloves";
+		this.armorType = "Glove";
+		this.cost = Prices.FUR_GLOVES;
+		this.defense = 10;
+	}
 }
