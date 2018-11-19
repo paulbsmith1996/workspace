@@ -1,0 +1,22 @@
+Spell Name,Aquos,Aero,Chrono,Corpus,Ether,Psyche,Pyro,Tele,Terra,Volt,Voluntary,Type,Damage
+Water Ball,1,0,0,0,0,0,0,0,0,0,0,Aquos,10
+Water Jet,2,1,0,0,0,0,0,0,0,0,0,Aquos,20
+Water Cannon,3,2,0,0,0,0,0,0,0,0,0,Aquos,40
+Tsunami,5,2,0,0,0,0,0,0,0,0,0,Aquos,75
+Rock Throw,0,0,0,0,0,0,0,0,1,0,0,Terra,10
+Stone Lift,0,0,0,0,1,0,0,0,2,0,0,Terra,20
+Boulder Crush,0,0,0,0,2,0,0,0,3,0,0,Terra,40
+Earthquake,0,0,0,0,2,0,0,0,5,0,0,Terra,75
+Name,0,0,0,0,0,0,0,0,0,0,0,Volt,10
+Name,0,0,0,0,0,0,0,0,0,0,0,Volt,10
+Name,0,0,0,0,0,0,0,0,0,0,0,Volt,10
+Name,0,0,0,0,0,0,0,0,0,0,0,Volt,10
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
