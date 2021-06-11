@@ -14,7 +14,7 @@ public class FurGloves extends Armor {
 	public FurGloves() {
 		this.ID = ItemReference.FURGLOVES;
 		this.name = "Fur Gloves";
-		this.armorType = "Glove";
+		this.armType = Armament.HANDS;
 		this.cost = Prices.FUR_GLOVES;
 		this.defense = 10;
 	}

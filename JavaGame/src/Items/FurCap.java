@@ -8,15 +8,15 @@ package Items;
  */
 public class FurCap extends Armor {
 
-    /**
-     * Define FurCap variables
-     */
-    public FurCap() {
-	this.ID = ItemReference.FURCAP;
-	this.name = "Fur Cap";
-	this.armorType = "Helmet";
-	this.cost = Prices.FUR_CAP;
-	this.defense = 20;
-    }
+	/**
+	 * Define FurCap variables
+	 */
+	public FurCap() {
+		this.ID = ItemReference.FURCAP;
+		this.name = "Fur Cap";
+		this.armType = Armament.HEAD;
+		this.cost = Prices.FUR_CAP;
+		this.defense = 20;
+	}
 
 }

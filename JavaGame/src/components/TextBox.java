@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.rmi.server.SkeletonNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -47,24 +48,19 @@ public class TextBox extends Rectangle {
 	public TextBox(int width, int height, boolean resize) {
 		super(width, height);
 		this.resize = resize;
-		textScan = new Scanner("");
+		setText("");
 		textParts = new Vector<String>();
 	}
 
 	public TextBox(int x, int y, int width, int height, Game game, boolean resize) {
-		super(x, y, width, height);
-		this.game = game;
-		this.resize = resize;
-		textScan = new Scanner("");
-		textParts = new Vector<String>();
+		this(x, y, width, height, "", game, resize);
 	}
 	
 	public TextBox(int x, int y, int width, int height, String text, Game game, boolean resize) {
 		super(x, y, width, height);
-		this.text = text;
+		setText(text);
 		this.game = game;
 		this.resize = resize;
-		textScan = new Scanner(text);
 		textParts = new Vector<String>();
 	}
 
@@ -81,80 +77,85 @@ public class TextBox extends Rectangle {
 
 	// Draw the text box
 	public void draw(Graphics g) {
-		if (visible) {
-			
-			g.setFont(new Font("TimesRoman", Font.BOLD, 18));
-			
-			if (wrap) {
-				
-				textScan.useDelimiter(" ");
-				String curLine = "";
-				while(textScan.hasNext()) {
-					String nextWord = textScan.next();
-					int lineLength = g.getFontMetrics().stringWidth(curLine + nextWord);
-					
-					if(lineLength > this.width - 2 * (TEXT_X_OFFSET + INNER_X_OFFSET + 4 * BUFFER) ) {
-						textParts.addElement(curLine + nextWord);
-						curLine = "";
-					} else {
-						curLine += nextWord + " ";
-					}
-					
-				}
-				
-				if(!curLine.equals("")) {
-					textParts.addElement(curLine);
-				}
-				
-				
-			} else {			
-				if(!textScan.delimiter().toString().equals("\\p{javaWhitespace}+")) {
-					while(textScan.hasNext()) {
-						String nextWord = textScan.next();
-						if(!nextWord.equals("")) {
-							textParts.add(nextWord);
-						}
-					}
-				} else {
-					if(!text.equals("")) {
-						textParts.add(text);
-					}
-				}				
-			}
-			
-			if(resize) {
-				int fontHeight = g.getFontMetrics().getHeight();
-				int numLines = textParts.size();
-				height = fontHeight * numLines 	// Count for height of actual lines
-						+ 2 * INNER_Y_OFFSET  // Account for offset at top and bottom
-						+ (numLines - 1) * LINE_SPACING // Account for spacing between lines
-						+ 2 * TEXT_Y_OFFSET; // Account for offset between inner rect and text
-				
-				while(y + height > game.getHeight()) {
-					y--;
-				}
-			}
-			
-			g.setColor(Color.WHITE);
-			g.fillRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
-			
-			g.setColor(Color.BLACK);
-			g.drawRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
-			
-			g.setColor(Color.BLACK);
-			g.drawRoundRect(x + INNER_X_OFFSET, y + INNER_Y_OFFSET, 
-					width - 2 * INNER_X_OFFSET, height - 2 * INNER_Y_OFFSET - 3, ARC_WIDTH, ARC_HEIGHT);
-			
-			g.setColor(Color.BLACK);
-
-			int tempY = y + g.getFontMetrics().getHeight() + INNER_Y_OFFSET + (TEXT_Y_OFFSET - BUFFER);
-			for (String s : textParts) {
-				g.drawString(s, x + INNER_X_OFFSET + TEXT_X_OFFSET, tempY);
-				tempY += g.getFontMetrics().getHeight() + LINE_SPACING;
-			}
-			
-			textParts = new Vector<String>();
+		if (!visible) {
+			return;
 		}
+			
+		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
+
+		if (wrap) {
+			textScan.useDelimiter(" ");
+			String curLine = "";
+			while (textScan.hasNext()) {
+				String nextWord = textScan.next();
+				int lineLength = g.getFontMetrics().stringWidth(curLine + nextWord);
+
+				if (lineLength > this.width - 2 * (TEXT_X_OFFSET + INNER_X_OFFSET + 4 * BUFFER)) {
+					textParts.addElement(curLine + nextWord);
+					curLine = "";
+				} else {
+					curLine += nextWord + " ";
+				}
+
+			}
+
+			if (!curLine.equals("")) {
+				textParts.addElement(curLine);
+			}
+
+		} else {
+			if (!textScan.delimiter().toString().equals("\\p{javaWhitespace}+")) {
+				while (textScan.hasNext()) {
+					String nextWord = textScan.next();
+					if (!nextWord.equals("")) {
+						textParts.add(nextWord);
+					}
+				}
+			} else {
+				if (!text.equals("")) {
+					textParts.add(text);
+				}
+			}
+		}
+		
+		if (textParts.isEmpty()) {
+			return;
+		}
+
+		if (resize) {
+			int fontHeight = g.getFontMetrics().getHeight();
+			int numLines = textParts.size();
+			height = fontHeight * numLines // Count for height of actual lines
+					+ 2 * INNER_Y_OFFSET // Account for offset at top and bottom
+					+ (numLines - 1) * LINE_SPACING // Account for spacing
+													// between lines
+					+ 2 * TEXT_Y_OFFSET; // Account for offset between inner
+											// rect and text
+
+			while (y + height > game.getHeight()) {
+				y--;
+			}
+		}
+
+		g.setColor(Color.WHITE);
+		g.fillRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
+
+		g.setColor(Color.BLACK);
+		g.drawRoundRect(x, y, width, height - 3, ARC_WIDTH, ARC_HEIGHT);
+
+		g.setColor(Color.BLACK);
+		g.drawRoundRect(x + INNER_X_OFFSET, y + INNER_Y_OFFSET, width - 2 * INNER_X_OFFSET,
+				height - 2 * INNER_Y_OFFSET - 3, ARC_WIDTH, ARC_HEIGHT);
+
+		g.setColor(Color.BLACK);
+
+		int tempY = y + g.getFontMetrics().getHeight() + INNER_Y_OFFSET + (TEXT_Y_OFFSET - BUFFER);
+		for (String s : textParts) {
+			g.drawString(s, x + INNER_X_OFFSET + TEXT_X_OFFSET, tempY);
+			tempY += g.getFontMetrics().getHeight() + LINE_SPACING;
+		}
+
+		textParts = new Vector<String>();
 	}
 	
 	public void setDelimiter(String separator) {

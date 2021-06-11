@@ -65,8 +65,8 @@ public class BattleHandler {
      * are toggled on/off by toggling their visibilities
      * 
      */
-    private TextMenu m;
-    private TextBox t;
+    private TextMenu menu;
+    private TextBox textbox;
     
     /**
      * Will be assigned the dimensions of the running Applet
@@ -118,7 +118,7 @@ public class BattleHandler {
     	this.width = appBounds.width;
     	this.height = appBounds.height;
     	
-    	t = new TextBox(TEXT_BOX_X, TEXT_BOX_Y, TEXT_BOX_WIDTH, TEXT_BOX_HEIGHT, g, true);
+    	textbox = new TextBox(TEXT_BOX_X, TEXT_BOX_Y, TEXT_BOX_WIDTH, TEXT_BOX_HEIGHT, g, true);
     	
     	if(opponent instanceof Boss) {
     		AudioPlayer.playMusic(Audio.BOSS_MUSIC);
@@ -174,16 +174,16 @@ public class BattleHandler {
     	String[] options = {"FIGHT", "SPELL", "POTION", "RUN"};
     	displayBMenu(options, 2, false);
 
-			if (m.getSelected() == 0) {
+			if (menu.getSelected() == 0) {
 				// Player wants to fight
 				fight();
-			} else if (m.getSelected() == 2) {
+			} else if (menu.getSelected() == 2) {
 				// Player wants to use a potion
 				selectPotion();
-			} else if (m.getSelected() == 1) {
+			} else if (menu.getSelected() == 1) {
 				// Player wants to use a spell
 				selectSpell();
-			} else if (m.getSelected() == 3) {
+			} else if (menu.getSelected() == 3) {
 				// Player tries to escape
 				if (canEscape) {
 					if (escape()) {
@@ -315,14 +315,14 @@ public class BattleHandler {
 			int HP_potions = player.getInventory().getQuantity(new HealthPotion());
 			int mana_potions = player.getInventory().getQuantity(new ManaPotion());
 
-			if (m.getSelected() == 0 && HP_potions > 0) {
+			if (menu.getSelected() == 0 && HP_potions > 0) {
 				// Player wants to use Health Potion
 				HealthPotion p = new HealthPotion();
 				displayBText(player.use(p));
 				
 				// Allow opponent to attack Player
 				successful = true;
-			} else if (m.getSelected() == 1 && mana_potions > 0) {
+			} else if (menu.getSelected() == 1 && mana_potions > 0) {
 				// Player wants to use a Mana Potion
 				ManaPotion p = new ManaPotion();
 				displayBText(player.use(p));
@@ -332,7 +332,7 @@ public class BattleHandler {
 			} else {
 				// If an invalid option is somehow selected from menu.
 				// default is to set m's selected to m.numChoices()
-				if(m.getSelected() >= m.numChoices()) {
+				if(menu.getSelected() >= menu.numChoices()) {
 					// Player requests an invalid Potion
 					displayBText("No such potion");	
 				}
@@ -364,7 +364,7 @@ public class BattleHandler {
 			displayBMenu(choices, 3, true);
 
 			// Important to add Spells in correct order to SpellBook
-			int spellID = m.getSelected() + 1;
+			int spellID = menu.getSelected() + 1;
 			// Determine which spell needs to be cast
 			Spell toCast = null;
 			
@@ -427,7 +427,7 @@ public class BattleHandler {
 				displayBText("Not enough mana!");
 			} else {
 				// User selected an option not displayed in menu
-				if (m.getSelected() > m.numChoices()) {
+				if (menu.getSelected() > menu.numChoices()) {
 					displayBText("No such spell!");
 				}
 			}
@@ -445,14 +445,15 @@ public class BattleHandler {
 	// and allowing the user to do something else
 	public void displayBText(String text) {
 		// Change text to passed String and update t's Scanner object
-		t.setText(text);
+		System.out.println("Printing: " + text);
+		textbox.setText(text);
 	
 		// Make sure t is the only visible text Object
-		if(m != null) {
-			m.setVisible(false);
+		if(menu != null) {
+			menu.setVisible(false);
 		}
 		
-		t.display();
+		textbox.display();
 	}
 	
 	/**
@@ -464,9 +465,9 @@ public class BattleHandler {
 	 */
 	public void displayBMenu(String[] choices, int width, boolean canExit) {
 		// Re-assign m to reflect passed variables
-		m = new TextMenu(choices, width, TEXT_BOX_X, TEXT_BOX_Y, g, canExit);
-		t.setVisible(false);
-		m.select();
+		menu = new TextMenu(choices, width, TEXT_BOX_X, TEXT_BOX_Y, g, canExit);
+		textbox.setVisible(false);
+		menu.select();
 	}
 	
 	// Method that tells Applet what to draw for BattleHandler
@@ -480,12 +481,12 @@ public class BattleHandler {
 		opponent.draw(g);
 		
 		// Draw t and m if they exist
-		if(t != null) {
-			t.draw(g);
+		if(textbox != null) {
+			textbox.draw(g);
 		}
 		
-		if(m != null) {
-			m.draw(g);
+		if(menu != null) {
+			menu.draw(g);
 		}
 		
 		// Draw important health/mana bars if they exist

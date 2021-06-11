@@ -29,7 +29,7 @@ public class Tile3_97 extends Tile {
 		//setArea(new MineFloor(), 3, numRows() - 1, 7, numRows() - 1);		
 		//setArea(new MineFloor(), 0, 3, 0, numRows() - 4);
 		
-		GoblinBoss firstBoss = new GoblinBoss(17);
+		GoblinBoss firstBoss = new GoblinBoss(10);
 		String[] dialogue = {"So you are the one who attacked my henchmen.", 
 			"I do not take kindly to those who ruin my plans."};
 		firstBoss.setDialogue(dialogue);

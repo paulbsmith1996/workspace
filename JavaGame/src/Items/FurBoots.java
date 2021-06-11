@@ -8,15 +8,15 @@ package Items;
  */
 public class FurBoots extends Armor {
 
-    /**
-     * Define FurBoots variables
-     */
-    public FurBoots() {
-	this.ID = ItemReference.FURBOOTS;
-	this.name = "Fur Boots";
-	this.armorType = "Boot";
-	this.cost = Prices.FUR_BOOTS;
-	this.defense = 20;
-    }
+	/**
+	 * Define FurBoots variables
+	 */
+	public FurBoots() {
+		this.ID = ItemReference.FURBOOTS;
+		this.name = "Fur Boots";
+		this.armType = Armament.FEET;
+		this.cost = Prices.FUR_BOOTS;
+		this.defense = 20;
+	}
 
 }

@@ -7,45 +7,53 @@ package Items;
  *
  */
 public class Item {
-    
-    /**
-     * Holds the type of Item that the Object is
-     */
-    int itemType;
-   
-    /**
-     * Holds name of Item object
-     */
-    String name;
-    
-    /**
-     * Holds unique ID code for Item
-     */
-    int ID;
 
-    /**
-     * Holds cost of item for a Creature/Player to buy it
-     */
-    int cost;
+	/**
+	 * Holds the type of Item that the Object is
+	 */
+	protected int itemType;
 
-    /**
-     * Returns the type if Item that this is
-     */
-    public int getItemType() { return this.itemType; }
+	/**
+	 * Holds name of Item object
+	 */
+	protected String name;
 
-    /**
-     * Returns the name of this Item
-     */
-    public String getName() { return this.name; }
+	/**
+	 * Holds unique ID code for Item
+	 */
+	protected int ID;
 
-    /**
-     * Returns the unique ID for the Item object
-     */
-    public int getID() { return this.ID; }
+	/**
+	 * Holds cost of item for a Creature/Player to buy it
+	 */
+	protected int cost;
 
-    /**
-     * Returns the cost of the item for the Player/Creature
-     */
-    public int getCost() { return this.cost; }
+	/**
+	 * Returns the type if Item that this is
+	 */
+	public int getItemType() {
+		return this.itemType;
+	}
+
+	/**
+	 * Returns the name of this Item
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Returns the unique ID for the Item object
+	 */
+	public int getID() {
+		return this.ID;
+	}
+
+	/**
+	 * Returns the cost of the item for the Player/Creature
+	 */
+	public int getCost() {
+		return this.cost;
+	}
 
 }

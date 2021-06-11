@@ -4,7 +4,7 @@ import gameobjects.Player;
 
 // Paul Baird-Smith 2015
 
-public class ClothRobe extends Armor {
+public class ClothRobe extends Armament {
 
 	// Represents owner of ClothRobe object
 	protected Player owner;
@@ -20,7 +20,7 @@ public class ClothRobe extends Armor {
 		owner = p;
 		this.ID = ItemReference.CLOTHROBE;
 		this.name = "Cloth Robe";
-		this.armorType = "Chest";
+		this.armType = Armament.CHEST;
 		this.cost = Prices.CLOTH_ROBE;
 		// Relatively low defense, but very good addedEffects
 		this.defense = 30;
@@ -44,7 +44,7 @@ public class ClothRobe extends Armor {
 
 		// If object has not already been equipped by owner,
 		// inform owner of status change
-		if (!EQUIPPED) {
+		if (!this.equipped) {
 			System.out.println("Mana increased by " + (owner.getMaxMana() / 3)
 					+ " points");
 		}

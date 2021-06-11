@@ -31,7 +31,7 @@ public class Tile7_91 extends Tile{
 		setArea(new StoneWall6(), numCols() - 1, 0, numCols() - 1, 3);
 		
 		setArea(new StoneWall2(), 1, 4, 3, 4);
-		setObject(new StoneWall2L(), 4, 4);
+		setObject(new StoneWall2L(), 3, 4);
 		setArea(new StoneWall2(), 9, 4, 11, 4);
 		setObject(new StoneWall2R(), 9, 4);
 		

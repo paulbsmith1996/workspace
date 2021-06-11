@@ -36,7 +36,8 @@ public class AudioPlayer {
 	
 	public static void addMusic(String key, String path) {
 		try {
-			musicMap.put(key, new Music(ResourceReference.MUSIC_LOCATION + path));
+//			Music musicForPath = new Music(ResourceReference.MUSIC_LOCATION + path);
+//			musicMap.put(key, musicForPath);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,7 +94,7 @@ public class AudioPlayer {
 		if (musicOn) {
 			Music toPlay = musicMap.get(key);
 			
-			if (!musicPlaying || toPlay != playing) {
+			if (toPlay != null && (!musicPlaying || toPlay != playing)) {
 				toPlay.loop();
 			}
 			
